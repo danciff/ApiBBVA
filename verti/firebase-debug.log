@@ -1,0 +1,32 @@
+[debug] [2017-08-17T19:14:28.638Z] ----------------------------------------------------------------------
+[debug] [2017-08-17T19:14:28.641Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dan\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2017-08-17T19:14:28.641Z] CLI Version:   3.9.2
+[debug] [2017-08-17T19:14:28.641Z] Platform:      win32
+[debug] [2017-08-17T19:14:28.641Z] Node Version:  v6.10.3
+[debug] [2017-08-17T19:14:28.643Z] Time:          Thu Aug 17 2017 21:14:28 GMT+0200 (Hora de verano romance)
+[debug] [2017-08-17T19:14:28.643Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-08-17T19:14:28.660Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-08-17T19:14:28.660Z] > authorizing via signed-in user
+[debug] [2017-08-17T19:14:28.662Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-08-17T19:14:28.663Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/55r_XKbZVMN50zljJoAYFwSxhYUz-Rzw7hZ21ZD3iAY',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Aug 17 2017 21:14:28 GMT+0200 (Hora de verano romance)
+[debug] [2017-08-17T19:14:28.996Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-17T19:14:29.062Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/appbbva-9b62b  
+ Thu Aug 17 2017 21:14:29 GMT+0200 (Hora de verano romance)
+[debug] [2017-08-17T19:14:29.777Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-17T19:14:29.779Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/appbbva-9b62b/tokens  
+ Thu Aug 17 2017 21:14:29 GMT+0200 (Hora de verano romance)
+[debug] [2017-08-17T19:14:30.391Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'appbbva-9b62b'...
+[info] 
+[info] i  deploying database, hosting
+[info] +  database: rules ready to deploy.
+[info] i  hosting: preparing ./ directory for upload...
+[debug] [2017-08-17T19:14:32.188Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/appbbva-9b62b/uploads/-Krlb_b86EeRnLZsBQ2i?fileCount=43&message=  
+ Thu Aug 17 2017 21:14:32 GMT+0200 (Hora de verano romance)

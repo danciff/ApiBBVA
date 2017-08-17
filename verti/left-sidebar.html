@@ -12,36 +12,50 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
-        window.onload = function () {
-            var chart = new CanvasJS.Chart("chartContainer",
-            {
-                animationEnabled: true,
-                theme: "theme2",
-                //exportEnabled: true,
-                title:{
-                    text: "Número de operaciones"
-                },
-                data: [
-                {
-                    type: "column", //change type to bar, line, area, pie, etc
-                    dataPoints: [
-                        { x: 10, y: 71 },
-                        { x: 20, y: 55 },
-                        { x: 30, y: 50 },
-                        { x: 40, y: 65 },
-                        { x: 50, y: 95 },
-                        { x: 60, y: 68 },
-                        { x: 70, y: 28 },
-                        { x: 80, y: 34 },
-                        { x: 90, y: 14 }
-                    ]
-                }
-                ]
-            });
 
-            chart.render();
-        }
+          // Load the Visualization API and the corechart package.
+          google.charts.load('current', {'packages':['corechart']});
+
+          // Set a callback to run when the Google Visualization API is loaded.
+          google.charts.setOnLoadCallback(drawChart);
+
+          // Callback that creates and populates a data table,
+          // instantiates the pie chart, passes in the data and
+          // draws it.
+          function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Tipo');
+            data.addColumn('number', 'Cantidad');
+            data.addRows([
+                ["es_auto",923346.09346999996],
+                ["es_barsandrestaurants", 2217097.9995000004],
+                ["es_contents",29709.627920000003],
+                ["es_fashion",5686409.8171899999], 
+                ["es_food",1741772.0943],
+                ["es_health",2173870.7268400001],
+                ["es_home",536124.66758999997],
+                ["es_leisure",80415.261129999999],
+                ["es_otherservices",1326556.6455999999],
+                ["es_sportsandtoys",711581.34531],
+                ["es_tech",1104606.8919200001],
+                ["es_transportation",1471398.9092299999],
+                ["es_wellnessandbeauty",1820828.8021000002]            
+            ]);
+
+            // Set chart options
+            var options = {'title':'Ventas por categorías',
+                           'width':700,
+                           'is3D':true,
+                           'height':400};
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+          }
         </script>
         <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	</head>
@@ -121,7 +135,7 @@
 							</div>
                             <!DOCTYPE HTML>
 
-                            <div id="chartContainer" style="height: 300px; width: 70%;"></div>
+                            <div id="chart_div"></div>
 							
 						</div>
 					</div>
