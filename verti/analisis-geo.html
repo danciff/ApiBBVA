@@ -12,8 +12,44 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+            <script type='text/javascript'>
+             google.charts.load('current', {
+               'packages': ['geochart'],
+               // Note: you will need to get a mapsApiKey for your project.
+               // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+               'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+             });
+             google.charts.setOnLoadCallback(drawMarkersMap);
+
+              function drawMarkersMap() {
+              var data = google.visualization.arrayToDataTable([
+                ['City',   'Population', 'Area'],
+                ['Madrid',      2761477,    1285.31],
+                ['Barcelona',     1324110,    181.76],
+                ['Bilbao',    959574,     117.27],
+                ['Valencia',     907563,     130.17],
+                ['Zaragoza',   655875,     158.9],
+                ['Sevilla',     607906,     243.60],
+                ['Granada',   380181,     140.7],
+                ['Vigo',  371282,     102.41],
+                ['Guadalajara', 67370,      213.44],
+                ['Soria',     52192,      43.43],
+                ['Alcalá de Henares',  38262,      11]
+              ]);
+
+              var options = {
+                region: 'ES',
+                displayMode: 'markers',
+                colorAxis: {colors: ['green', 'blue']}
+              };
+
+              var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+              chart.draw(data, options);
+            };
+            </script>
 	</head>
-	<body class="no-sidebar">
+	<body class="left-sidebar">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -31,7 +67,7 @@
 								<ul>
 									<li><a href="index.html">Bienvenidos</a></li>
                                     <li><a href="left-sidebar.html">Resumen</a></li>
-				                    <li>
+				                    <li class="current">
 										<a href="#">Análisis</a>
 										<ul>
 											<li><a href="#">Transacciones</a></li>
@@ -39,7 +75,7 @@
 											<li>
 												<a href="#">Localización</a>
 												<ul>
-													<li><a href="analisis-geo.html">Origen</a></li>
+													<li class="current"><a href="analisis-geo.html">Origen</a></li>
 													<li><a href="#">Lugar</a></li>
 													<!--<li><a href="#">Magna phasellus</a></li>-->
 													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
@@ -49,7 +85,7 @@
 										</ul>
 									</li>
 									<li><a href="right-sidebar.html">Bibliografía</a></li>
-									<li class="current"><a href="no-sidebar.html">Contacto</a></li>
+									<li><a href="no-sidebar.html">Contacto</a></li>
 								</ul>
 							</nav>
 
@@ -59,38 +95,43 @@
 			<!-- Main -->
 				<div id="main-wrapper">
 					<div class="container">
-						<div id="content">
+						<div class="row 200%">
+							<div style="height: 300px; width: 30%;"  class="4u 12u$(medium)">
+								<div id="sidebar">
 
-							<section id="contact" class="four">
-                                <div class="container">
+									<!-- Sidebar -->
+										<section>
+											<h3>Gasto por región</h3>
+											<p>Paystats nos ofrece las cantidades gastadas en cada ciudad.</p>
+                                            <!--<p>En la gráfica adjunta podemos ver la cantidad de transacciones realizadas durante el año 2015 del que disponemos los datos.</p>
+											<footer>
+												<a href="#" class="button icon fa-info-circle">Find out more</a>
+											</footer>-->
+										</section>
 
-                                    <header>
-                                        <h2>Contacto</h2>
-                                    </header>
+										<!-- <section>
+											<h3>Subheading</h3>
+											<ul class="style2">
+												<li><a href="#">Amet turpis, feugiat et sit amet</a></li>
+												<li><a href="#">Ornare in hendrerit in lectus</a></li>
+												<li><a href="#">Semper mod quis eget mi dolore</a></li>
+												<li><a href="#">Quam turpis feugiat sit dolor</a></li>
+												<li><a href="#">Amet ornare in hendrerit in lectus</a></li>
+												<li><a href="#">Semper mod quisturpis nisi</a></li>
+											</ul>
+										</section> -->
 
-                                    <p>Para más información.</p>
+								</div>
+							</div>
+                            <!DOCTYPE HTML>
 
-                                    <form method="post" action="#">
-                                        <div class="row">
-                                            <div class="6u 12u$(mobile)"><input type="text" name="name" placeholder="Name" /></div>
-                                            <div class="6u$ 12u$(mobile)"><input type="text" name="email" placeholder="Email" /></div>
-                                            <div class="12u$">
-                                                <textarea name="message" placeholder="Message"></textarea>
-                                            </div>
-                                            <div class="12u$">
-                                                <input type="submit" value="Send Message" />
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-					       </section>
-
+                            <div id="chart_div"></div>
+							
 						</div>
 					</div>
 				</div>
 
-			<!-- Footer -->
+						<!-- Footer -->
 				<div id="footer-wrapper">
 					<footer id="footer" class="container">
 						<div class="row">
