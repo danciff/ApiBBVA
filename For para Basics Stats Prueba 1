@@ -1,0 +1,89 @@
+with open('data_basics.json') as file:
+    data=json.load(file)
+data
+
+{u'data': [{u'avg': 39.08693,
+   u'cards': 101101,
+   u'date': u'201501',
+   u'max': 10867.64,
+   u'merchants': 1174,
+   u'min': 0.04,
+   u'peak_txs_day': 6,
+   u'peak_txs_hour': 19,
+   u'std': 69.37,
+   u'txs': 189389,
+   u'valley_txs_day': 4,
+   u'valley_txs_hour': 4},
+  {u'avg': 39.77718,
+   u'cards': 76401,
+   u'date': u'201502',
+   u'max': 54869.17,
+   u'merchants': 1187,
+   u'min': 0.05,
+   u'peak_txs_day': 1,
+   u'peak_txs_hour': 19,
+   u'std': 271.6,
+   u'txs': 136787,
+   u'valley_txs_day': 7,
+   u'valley_txs_hour': 4},
+  {u'avg': 40.88516,
+   u'cards': 84473,
+   u'date': u'201503',
+   u'max': 58167.33,
+   u'merchants': 1197,
+   u'min': 0.04,
+   u'peak_txs_day': 3,
+   u'peak_txs_hour': 19,
+   u'std': 190.03,
+   u'txs': 154861,
+   u'valley_txs_day': 7,
+   u'valley_txs_hour': 5}],
+ u'result': {u'code': 200, u'info': u'OK'}}
+ 
+ 
+ fecha=[]
+cat=[]
+cards=[]
+avg=[]
+merch=[]
+txs=[]
+maxi=[]
+mini=[]
+std=[]
+peak_txs_day=[]
+valley_txs_day=[]
+peak_txs_hour=[]
+valley_txs_hour=[]
+
+
+
+
+for i in range(len(data['data'])):
+    #fecha.append(data['data'][i]['date'])
+    fecha.append(data['data'][i]['date'])
+    avg.append(data['data'][i]['avg'])
+    maxi.append(data['data'][i]['max'])
+    mini.append(data['data'][i]['min'])
+    std.append(data['data'][i]['std'])
+    peak_txs_day.append(data['data'][i]['peak_txs_day'])
+    valley_txs_day.append(data['data'][i]['valley_txs_day'])
+    peak_txs_hour.append(data['data'][i]['peak_txs_hour'])
+    valley_txs_hour.append(data['data'][i]['valley_txs_hour'])
+    merch.append(data['data'][i]['merchants'])
+    cards.append(data['data'][i]['cards'])
+    txs.append(data['data'][i]['txs'])
+        
+d_bas = pd.DataFrame()
+d_bas['Fecha']=fecha
+d_bas['Nº Tarjetas']=cards
+d_bas['Compra Media']=avg
+d_bas['Establecimientos']=merch
+d_bas['Txs']=txs
+d_bas['Maximo']=maxi
+d_bas['Minimo']=mini
+d_bas['Desviacion Tipica']=std
+d_bas['peak_txs_day']=peak_txs_day
+d_bas['valley_txs_day']=valley_txs_day
+d_bas['peak_txs_hour']=peak_txs_hour
+d_bas['valley_txs_hour']=valley_txs_hour
+d_bas
