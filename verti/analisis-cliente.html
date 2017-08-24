@@ -12,54 +12,36 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
+         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-          // Load the Visualization API and the corechart package.
-          google.charts.load('current', {'packages':['corechart']});
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Edad (Años)',  'Mujer', 'Hombre'],
+          ['25-34', 3803380,         2540925],
+          ['35-44',     4952842,         3148303],
+          ['45-54',        4359171,         2668764],
+          ['55-64',      3596855,         2450899],
+            ['<=24',        733107,         435764],
+          ['>=',      2736765,         2436661],
+            ['Desconocido',      53533,         5075571]
+        ]);
 
-          // Set a callback to run when the Google Visualization API is loaded.
-          google.charts.setOnLoadCallback(drawChart);
+        var options = {
+          title: 'Ventas por edad y sexo',
+          vAxis: {title: 'Ventas acumuladas'},
+          isStacked: true
+        };
 
-          // Callback that creates and populates a data table,
-          // instantiates the pie chart, passes in the data and
-          // draws it.
-          function drawChart() {
+        var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
 
-            // Create the data table.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Tipo');
-            data.addColumn('number', 'Cantidad');
-            data.addRows([
-                ["es_auto",923346.09346999996],
-                ["es_barsandrestaurants", 2217097.9995000004],
-                ["es_contents",29709.627920000003],
-                ["es_fashion",5686409.8171899999], 
-                ["es_food",1741772.0943],
-                ["es_health",2173870.7268400001],
-                ["es_home",536124.66758999997],
-                ["es_leisure",80415.261129999999],
-                ["es_otherservices",1326556.6455999999],
-                ["es_sportsandtoys",711581.34531],
-                ["es_tech",1104606.8919200001],
-                ["es_transportation",1471398.9092299999],
-                ["es_wellnessandbeauty",1820828.8021000002]            
-            ]);
-
-            // Set chart options
-            var options = {'title':'Ventas por categorías',
-                           'width':700,
-                           'is3D':true,
-                           'height':400};
-
-            // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-          }
-        </script>
-        
+        chart.draw(data, options);
+      }
+    </script>
 	</head>
-	<body class="right-sidebar">
+	<body class="analisis-geo">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -76,16 +58,22 @@
 							<nav id="nav">
 								<ul>
 									<li><a href="index.html">Bienvenidos</a></li>
-                                    <li><a href="left-sidebar.html">Resumen</a></li>
-				                    <li>
+                                    <li><a href="resumen.html">Resumen</a></li>
+				                    <li class="current">
 										<a href="#">Análisis</a>
 										<ul>
-											<li><a href="#">Transacciones</a></li>
-											<li><a href="#">Clientes</a></li>
+											<li><a href="#">Transacciones</a>
+                                                <ul>
+													<li class="current"><a href="analisis-trans-ven.html">Origen</a></li>
+													<li><a href="#">Lugar</a></li>
+													<!--<li><a href="#">Magna phasellus</a></li>-->
+													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
+												</ul></li>
+											<li><a href="analisis-cliente.html">Clientes</a></li>
 											<li>
 												<a href="#">Localización</a>
 												<ul>
-													<li><a href="analisis-geo.html">Origen</a></li>
+													<li class="current"><a href="analisis-geo.html">Origen</a></li>
 													<li><a href="#">Lugar</a></li>
 													<!--<li><a href="#">Magna phasellus</a></li>-->
 													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
@@ -94,8 +82,8 @@
 											<!--<li><a href="#">Gasto</a></li>-->
 										</ul>
 									</li>
-									<li class="current"><a href="right-sidebar.html">Bibliografía</a></li>
-									<li><a href="no-sidebar.html">Contacto</a></li>
+									<li><a href="conclusiones.html">Conclusiones</a></li>
+									<li><a href="contacto.html">Contacto</a></li>
 								</ul>
 							</nav>
 
@@ -106,28 +94,20 @@
 				<div id="main-wrapper">
 					<div class="container">
 						<div class="row 200%">
-							<div class="8u 12u$(medium)">
-								<div id="content">
-                                    <div id="chart_div"></div>
-
-								</div>
-							</div>
-							<div class="4u 12u$(medium)">
+							<div style="height: 300px; width: 30%;"  class="4u 12u$(medium)">
 								<div id="sidebar">
 
 									<!-- Sidebar -->
 										<section>
-											<h3>Subheading</h3>
-											<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus.
-											Praesent semper mod quis eget mi. Etiam eu ante risus. Aliquam erat volutpat.
-											Aliquam luctus et mattis lectus sit amet pulvinar. Nam turpis nisi
-											consequat etiam.</p>
+											<h3>Transacciones por zona</h3>
+											<p>Paystats nos ofrece el porcentaje de transacciones realizadas por zona. Mostramos las 10 zonas con mayor porcentaje.</p>
+                                            <!--<p>En la gráfica adjunta podemos ver la cantidad de transacciones realizadas durante el año 2015 del que disponemos los datos.</p>
 											<footer>
 												<a href="#" class="button icon fa-info-circle">Find out more</a>
-											</footer>
+											</footer>-->
 										</section>
 
-										<section>
+										<!-- <section>
 											<h3>Subheading</h3>
 											<ul class="style2">
 												<li><a href="#">Amet turpis, feugiat et sit amet</a></li>
@@ -137,23 +117,27 @@
 												<li><a href="#">Amet ornare in hendrerit in lectus</a></li>
 												<li><a href="#">Semper mod quisturpis nisi</a></li>
 											</ul>
-										</section>
+										</section> -->
 
 								</div>
 							</div>
+                            <!DOCTYPE HTML>
+
+                               <div id="chart_div" style="width: 700px; height: 500px;"></div>
+							
 						</div>
 					</div>
 				</div>
 
-			<!-- Footer -->
+						<!-- Footer -->
 				<div id="footer-wrapper">
 					<footer id="footer" class="container">
 						<div class="row">
-							<div class="3u 6u(medium) 12u$(small)">
+							<!-- <div class="3u 6u(medium) 12u$(small)">
 
-								<!-- Links -->
+
 									<section class="widget links">
-										<h3>Random Stuff</h3>
+										<h3>Resumen</h3>
 										<ul class="style2">
 											<li><a href="#">Etiam feugiat condimentum</a></li>
 											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
@@ -166,9 +150,8 @@
 							</div>
 							<div class="3u 6u$(medium) 12u$(small)">
 
-								<!-- Links -->
 									<section class="widget links">
-										<h3>Random Stuff</h3>
+										<h3>Bibliografía</h3>
 										<ul class="style2">
 											<li><a href="#">Etiam feugiat condimentum</a></li>
 											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
@@ -181,9 +164,9 @@
 							</div>
 							<div class="3u 6u(medium) 12u$(small)">
 
-								<!-- Links -->
+
 									<section class="widget links">
-										<h3>Random Stuff</h3>
+										<h3>Contacto</h3>
 										<ul class="style2">
 											<li><a href="#">Etiam feugiat condimentum</a></li>
 											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
@@ -193,12 +176,17 @@
 										</ul>
 									</section>
 
-							</div>
+							</div>-->
 							<div class="3u 6u$(medium) 12u$(small)">
 
 								<!-- Contact -->
-									<section class="widget contact">
-										<h3>Contact Us</h3>
+									<section class="widget contact last">
+										<h3>Contáctanos</h3>
+									</section>
+
+							</div>
+                            <div class="3u 6u$(medium) 12u$(small)">
+                                <section class="widget contact last">
 										<ul>
 											<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 											<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
@@ -206,18 +194,15 @@
 											<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
 											<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
 										</ul>
-										<p>1234 Fictional Road<br />
-										Nashville, TN 00000<br />
-										(800) 555-0000</p>
 									</section>
-
-							</div>
+                            </div>
 						</div>
 						<div class="row">
 							<div class="12u">
 								<div id="copyright">
 									<ul class="menu">
-										<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+										<li>&copy; Universidad de Alcalá de Henares</li>
+                                        <!--<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>-->
 									</ul>
 								</div>
 							</div>

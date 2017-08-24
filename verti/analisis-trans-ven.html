@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<!--
+	Verti by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Paystats</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+            <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+            <script type='text/javascript'>
+             // Load the Visualization API and the controls package.
+              google.charts.load('current', {'packages':['corechart', 'controls']});
+
+              // Set a callback to run when the Google Visualization API is loaded.
+              google.charts.setOnLoadCallback(drawDashboard);
+
+              // Callback that creates and populates a data table,
+              // instantiates a dashboard, a range slider and a pie chart,
+              // passes in the data and draws it.
+              function drawDashboard() {
+
+                // Create our data table.
+                var data = google.visualization.arrayToDataTable([
+             ['Fecha','Tecnología','Belleza','Transporte','Juguetes/Deportes','Otros','Ocio','hogar','salud','comida','moda','contenidos','restaurantes','autos'],
+              ['Enero',  115079,        156856, 112506, 64253, 103200, 6787,50126,177236,,593469,1183,194023,69053],
+              ['Febrero',  98019,      122399, 118384, 46818, 85143,,42667,186199,,325302,1339,176870,71303],
+              ['Marzo',  100873,       144688, 130194, 48035, 108784,4548,42764,179155,,408075,,205225,77737],
+              ['Abril',  75257,      134128, 122080, 54631, 98382,7425,39734,181342,,412356,873,188899,65499],
+              ['Mayo',  72189,      161019, 140113, 62847, 106425,8027,39181,201254,,497589,,197420,75863],
+              ['Junio',  86345,      168030, 139756, 58006, 104447,,50574,195224,,508727,1289,201840,94839],
+              ['Julio',  86300,       168733, 151427, 56113, 114264,,41458,199910,,536818,3388,177662,107678],
+              ['Agosto',  70426,      128632, 87910, 37042, 82161,,33487,124767,169611,298687,5254,124539,60285],
+              ['Septiembre',  93251,      150452, 115266, 63867, 134825,,45448,185500,364782,454438,11305,153284,76334],
+              ['Octubre',  83623,      136705, 124343, 59769, 120994,11530,45064,182520,377825,541598,2862,180143,75543],
+              ['Noviembre',  99841,       142839, 120254, 60685, 113560,17500,51022,179401,376976,497287,1162,190082,76599],
+              ['Diciembre',  123398,      206342, 109161, 99509, 154366,24594,54593,181357,452575,612058,1050,227104,72607]
+                ]);
+
+                // Create a dashboard.
+                var dashboard = new google.visualization.Dashboard(
+                    document.getElementById('dashboard_div'));
+
+                // Create a range slider, passing some options
+                var donutRangeSlider = new google.visualization.ControlWrapper({
+                  'controlType': 'CategoryFilter',
+                  'containerId': 'filter_div',
+                  'options': {
+                    'filterColumnLabel': 'Fecha'
+                  }
+                });
+
+                // Create a pie chart, passing some options
+                var pieChart = new google.visualization.ChartWrapper({
+                  'chartType': 'AreaChart',
+                  'containerId': 'chart_div',
+                  'options': {
+                    'width': 600,
+                    'height': 400,
+                    'pieSliceText': 'value',
+                    'legend': 'right'
+                  }
+                });
+
+                // Establish dependencies, declaring that 'filter' drives 'pieChart',
+                // so that the pie chart will only display entries that are let through
+                // given the chosen slider range.
+                dashboard.bind(donutRangeSlider, pieChart);
+
+                // Draw the dashboard.
+                dashboard.draw(data);
+              }
+
+            </script>
+	</head>
+	<body class="analisis-geo">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+
+						<!-- Logo -->
+							<div id="logo">
+								<h1><a href="index.html">Paystats</a></h1>
+								<span>Análisis de negocio</span>
+							</div>
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li><a href="index.html">Bienvenidos</a></li>
+                                    <li><a href="resumen.html">Resumen</a></li>
+				                    <li class="current">
+										<a href="#">Análisis</a>
+										<ul>
+											<li><a href="#">Transacciones</a>
+                                                <ul>
+													<li class="current"><a href="analisis-trans-ven.html">Ventas</a></li>
+													<li><a href="#">Establecimientos</a></li>
+													<!--<li><a href="#">Magna phasellus</a></li>-->
+													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
+												</ul></li>
+											<li><a href="analisis-cliente.html">Clientes</a></li>
+											<li>
+												<a href="#">Localización</a>
+												<ul>
+													<li class="current"><a href="analisis-geo.html">Origen</a></li>
+													<li><a href="#">Lugar</a></li>
+													<!--<li><a href="#">Magna phasellus</a></li>-->
+													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
+												</ul>
+											</li>
+											<!--<li><a href="#">Gasto</a></li>-->
+										</ul>
+									</li>
+									<li><a href="conclusiones.html">Conclusiones</a></li>
+									<li><a href="contactor.html">Contacto</a></li>
+								</ul>
+							</nav>
+
+					</header>
+				</div>
+
+			<!-- Main -->
+				<div id="main-wrapper">
+					<div class="container">
+						<div class="row 200%">
+							<div style="height: 500px; width: 30%;"  class="3u 12u$(medium)">
+								<div id="sidebar">
+
+									<!-- Sidebar -->
+										<section>
+											<h3>Ventas por categoría</h3>
+											<p>Paystats nos ofrece las ventas realizadas según el tipo de transacción.</p>
+                                            <!--<p>En la gráfica adjunta podemos ver la cantidad de transacciones realizadas durante el año 2015 del que disponemos los datos.</p>
+											<footer>
+												<a href="#" class="button icon fa-info-circle">Find out more</a>
+											</footer>-->
+										</section>
+
+										<section>
+											<h3>Número de establecimientos</h3>
+											<ul class="style2">
+												<li>Tecnología: 55</li>
+												<li>Restaurantes: 179</li>
+                                                <li>Moda: 145</li>
+                                                <li>Ocio: 10</li>
+                                                <li>Transporte: 202</li>
+                                                <li>Salud: 142</li>
+                                                <li>Automoviles: 50</li>
+												<li>Belleza: 115</li>
+                                                <li>Hogar: 55</li>
+                                                <li>Juguetes/Deportes: 30</li>
+                                                <li>Contenidos: 14</li>
+                                                <li>Otros: 107</li>
+                                                <li>Comida: 139</li>
+											</ul>
+										</section> 
+
+								</div>
+							</div>
+                            <!DOCTYPE HTML>
+                             <div style="height: 500px; width: 55%;"  class="6u 12u$(medium)">
+                                <div id="dashboard_div" >
+                                  <!--Divs that will hold each control and chart-->
+                                  <div id="filter_div"></div>
+                                  <div id="chart_div"></div>
+                                </div>
+                            </div>
+                            <div style="height: 500px; width: 15%;"  class="3u 12u$(medium)">
+                                <table style="border: 2px solid #dddddd;">
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <th>Total</th>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>1678512</td>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>1554856</td>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>1601547</td>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>1517407</td>
+                                  </tr>
+                                    <tr style="border: 1px solid #dddddd;">
+                                    <td>1807700</td>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>1949434</td>
+                                  </tr>
+                                    <tr style="border: 1px solid #dddddd;">
+                                    <td>1870988</td>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>1100623</td>
+                                  </tr>
+                                    <tr style="border: 1px solid #dddddd;">
+                                    <td>1197999</td>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>1360510</td>
+                                  </tr>
+                                    <tr style="border: 1px solid #dddddd;">
+                                    <td>1571203</td>
+                                  </tr>
+                                  <tr style="border: 1px solid #dddddd;">
+                                    <td>2120082</td>
+                                  </tr>
+                                </table>
+                            </div>
+						</div>
+					</div>
+				</div>
+
+						<!-- Footer -->
+				<div id="footer-wrapper">
+					<footer id="footer" class="container">
+						<div class="row">
+							<!-- <div class="3u 6u(medium) 12u$(small)">
+
+
+									<section class="widget links">
+										<h3>Resumen</h3>
+										<ul class="style2">
+											<li><a href="#">Etiam feugiat condimentum</a></li>
+											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
+											<li><a href="#">Sed porttitor cras in erat nec</a></li>
+											<li><a href="#">Felis varius pellentesque potenti</a></li>
+											<li><a href="#">Nullam scelerisque blandit leo</a></li>
+										</ul>
+									</section>
+
+							</div>
+							<div class="3u 6u$(medium) 12u$(small)">
+
+									<section class="widget links">
+										<h3>Bibliografía</h3>
+										<ul class="style2">
+											<li><a href="#">Etiam feugiat condimentum</a></li>
+											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
+											<li><a href="#">Sed porttitor cras in erat nec</a></li>
+											<li><a href="#">Felis varius pellentesque potenti</a></li>
+											<li><a href="#">Nullam scelerisque blandit leo</a></li>
+										</ul>
+									</section>
+
+							</div>
+							<div class="3u 6u(medium) 12u$(small)">
+
+
+									<section class="widget links">
+										<h3>Contacto</h3>
+										<ul class="style2">
+											<li><a href="#">Etiam feugiat condimentum</a></li>
+											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
+											<li><a href="#">Sed porttitor cras in erat nec</a></li>
+											<li><a href="#">Felis varius pellentesque potenti</a></li>
+											<li><a href="#">Nullam scelerisque blandit leo</a></li>
+										</ul>
+									</section>
+
+							</div>-->
+							<div class="3u 6u$(medium) 12u$(small)">
+
+								<!-- Contact -->
+									<section class="widget contact last">
+										<h3>Contáctanos</h3>
+									</section>
+
+							</div>
+                            <div class="3u 6u$(medium) 12u$(small)">
+                                <section class="widget contact last">
+										<ul>
+											<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+											<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+											<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+											<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+											<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
+										</ul>
+									</section>
+                            </div>
+						</div>
+						<div class="row">
+							<div class="12u">
+								<div id="copyright">
+									<ul class="menu">
+										<li>&copy; Universidad de Alcalá de Henares</li>
+                                        <!--<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>-->
+									</ul>
+								</div>
+							</div>
+						</div>
+					</footer>
+				</div>
+
+			</div>
+
+		<!-- Scripts -->
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
