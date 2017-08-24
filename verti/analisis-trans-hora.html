@@ -12,8 +12,75 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Fecha');
+        data.addColumn('string', 'Día y hora MAX');
+        data.addColumn('string', 'Día y hora MIN');
+        data.addRows([
+          ['Enero',  'Viernes : 19:00', 'Viernes : 4:00'],
+          ['Febrero',  'Domingo : 19:00', 'Sabado : 4:00'],
+          ['Marzo',  'Martes : 19:00', 'Martes : 4:00'],
+          ['Abril',  'Miercoles : 19:00', 'Miercoles : 5:00'],
+          ['Mayo',  'Sabado : 19:00', 'Sabado : 4:00'],
+          ['Junio',  'Martes : 20:00', 'Martes : 5:00'],
+          ['Julio',  'Miercoles : 20:00', 'Miercoles : 4:00'],
+          ['Agosto',  'Domingo : 19:00', 'Sabado : 5:00'],
+          ['Septiembre',  'Martes : 19:00', 'Martes : 4:00'],
+          ['Octubre',  'Viernes : 19:00', 'Viernes : 3:00'],
+          ['Noviembre',  'Lunes : 19:00', 'Lunes : 2:00'],
+          ['Diciembre',  'Miercoles : 19:00', 'Miercoles : 4:00']
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+        google.charts.load("current", {packages:['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable([
+                ["Fecha", "Ventas"],
+                ["201501", 10867.64 ],
+                ["201502",  54869.17  ],        
+                ["201503",  58167.33   ],      
+                ["201504",  52994.19   ],     
+                ["201505", 43768.30   ],    
+                ["201506", 52579.98  ],   
+                ["201507",  51103.25   ],  
+                ["201508", 48528.43   ],   
+                ["201509",  17435.91   ],   
+                ["201510",  66949.29     ],  
+                ["201511",  66174.01     ], 
+                ["201512", 95483.20       ]
+              ]);
+
+              var view = new google.visualization.DataView(data);
+              view.setColumns([0, 1,
+                               { calc: "stringify",
+                                 sourceColumn: 1,
+                                 type: "string",
+                                 role: "annotation" }
+                              ]);
+
+              var options = {
+                title: "Ventas máximas en un solo día",
+                width: 600,
+                height: 300,
+                bar: {groupWidth: "95%"},
+                legend: { position: "none" },
+              };
+              var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+              chart.draw(view, options);
+          }
+    </script>
 	</head>
-	<body class="contacto">
+	<body class="analisis-geo">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -31,18 +98,17 @@
 								<ul>
 									<li><a href="index.html">Bienvenidos</a></li>
                                     <li><a href="resumen.html">Resumen</a></li>
-				                    <li>
+				                    <li class="current">
 										<a href="#">Análisis</a>
 										<ul>
 											<li><a href="#">Transacciones</a>
-                                            <ul>
+                                                <ul>
 													<li><a href="analisis-trans-ven.html">Categoría</a></li>
-													<li><a href="analisis-trans-hora.html">Horario</a></li>
+													<li class="current"><a href="analisis-trans-hora.html">Horario</a></li>
 													<!--<li><a href="#">Magna phasellus</a></li>-->
 													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
 												</ul></li>
-											<li><a href="analisis-cliente.html">Clientes</a>
-                                                </li>
+											<li><a href="analisis-cliente.html">Clientes</a></li>
 											<li>
 												<a href="#">Localización</a>
 												<ul>
@@ -56,7 +122,7 @@
 										</ul>
 									</li>
 									<li><a href="conclusiones.html">Conclusiones</a></li>
-									<li class="current"><a href="contacto.html">Contacto</a></li>
+									<li><a href="contacto.html">Contacto</a></li>
 								</ul>
 							</nav>
 
@@ -66,38 +132,32 @@
 			<!-- Main -->
 				<div id="main-wrapper">
 					<div class="container">
-						<div id="content">
+						<div class="row 200%">
+                            <div style="height: 500px; width: 40%;"  class="6u 12u$(medium)">
+                                <div id="table_div"></div>
+                            </div>
+                            <!DOCTYPE HTML>
+                             <div style="height: 500px; width: 60%;"  class="6u 12u$(medium)">
+                                 <div id="sidebar">
 
-							<section id="contact" class="four">
-                                <div class="container">
+									<!-- Sidebar -->
+										<section>
+											<h3>Ventas por categoría</h3>
+											<p>Paystats nos ofrece las ventas realizadas según el tipo de transacción.</p>
+                                            <!--<p>En la gráfica adjunta podemos ver la cantidad de transacciones realizadas durante el año 2015 del que disponemos los datos.</p>
+											<footer>
+												<a href="#" class="button icon fa-info-circle">Find out more</a>
+											</footer>-->
+										</section>										
 
-                                    <header>
-                                        <h2>Contacto</h2>
-                                    </header>
-
-                                    <p>Para más información.</p>
-
-                                    <form method="post" action="#">
-                                        <div class="row">
-                                            <div class="6u 12u$(mobile)"><input type="text" name="name" placeholder="Name" /></div>
-                                            <div class="6u$ 12u$(mobile)"><input type="text" name="email" placeholder="Email" /></div>
-                                            <div class="12u$">
-                                                <textarea name="message" placeholder="Message"></textarea>
-                                            </div>
-                                            <div class="12u$">
-                                                <input type="submit" value="Send Message" />
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-					       </section>
-
+								</div>
+                                <div id="columnchart_values"></div>
+                            </div>                                
 						</div>
 					</div>
 				</div>
 
-			<!-- Footer -->
+						<!-- Footer -->
 				<div id="footer-wrapper">
 					<footer id="footer" class="container">
 						<div class="row">

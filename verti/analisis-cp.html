@@ -12,8 +12,46 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+          <script type="text/javascript">
+            google.charts.load("current", {packages:['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable([
+                ["CP", "Porcentaje de ventas"],
+                ["28029",1.888390],
+                ["28020",0.280371],
+                ["28034",0.143304],
+                ["28046",0.142358],
+                ["28050",0.130726],
+                ["28108",0.128554],
+                ["28003",0.118547],
+                ["28039",0.104488],
+                ["28036",0.098576],
+                ["28035",0.091793]
+              ]);
+
+              var view = new google.visualization.DataView(data);
+              view.setColumns([0, 1,
+                               { calc: "stringify",
+                                 sourceColumn: 1,
+                                 type: "string",
+                                 role: "annotation" }
+                              ]);
+
+              var options = {
+                title: "Top 10 porcentaje ventas CP",
+                width: 600,
+                height: 300,
+                bar: {groupWidth: "95%"},
+                legend: { position: "none" },
+              };
+              var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+              chart.draw(view, options);
+          }
+          </script>
 	</head>
-	<body class="contacto">
+	<body class="analisis-geo">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -31,23 +69,22 @@
 								<ul>
 									<li><a href="index.html">Bienvenidos</a></li>
                                     <li><a href="resumen.html">Resumen</a></li>
-				                    <li>
+				                    <li class="current">
 										<a href="#">Análisis</a>
 										<ul>
 											<li><a href="#">Transacciones</a>
-                                            <ul>
+                                                <ul>
 													<li><a href="analisis-trans-ven.html">Categoría</a></li>
 													<li><a href="analisis-trans-hora.html">Horario</a></li>
 													<!--<li><a href="#">Magna phasellus</a></li>-->
 													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
 												</ul></li>
-											<li><a href="analisis-cliente.html">Clientes</a>
-                                                </li>
+											<li><a href="analisis-cliente.html">Clientes</a></li>
 											<li>
 												<a href="#">Localización</a>
 												<ul>
 													<li><a href="analisis-geo.html">Origen</a></li>
-													<li><a href="analisis-cp.html">Lugar</a></li>
+													<li class="current"><a href="analisis-cp.html">Lugar</a></li>
 													<!--<li><a href="#">Magna phasellus</a></li>-->
 													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
 												</ul>
@@ -56,7 +93,7 @@
 										</ul>
 									</li>
 									<li><a href="conclusiones.html">Conclusiones</a></li>
-									<li class="current"><a href="contacto.html">Contacto</a></li>
+									<li><a href="contacto.html">Contacto</a></li>
 								</ul>
 							</nav>
 
@@ -66,38 +103,52 @@
 			<!-- Main -->
 				<div id="main-wrapper">
 					<div class="container">
-						<div id="content">
+						<div class="row 200%">
+							<div style="height: 200px; width: 30%;"  class="4u 12u$(medium)">
+								<div id="sidebar">
 
-							<section id="contact" class="four">
-                                <div class="container">
+									<!-- Sidebar -->
+										<section>
+											<h3>Gasto por región</h3>
+											<p>Paystats nos ofrece las cantidades gastadas en cada ciudad.</p>
+                                            <!--<p>En la gráfica adjunta podemos ver la cantidad de transacciones realizadas durante el año 2015 del que disponemos los datos.</p>
+											<footer>
+												<a href="#" class="button icon fa-info-circle">Find out more</a>
+											</footer>-->
+										</section>
 
-                                    <header>
-                                        <h2>Contacto</h2>
-                                    </header>
+										<!-- <section>
+											<h3>Subheading</h3>
+											<ul class="style2">
+												<li><a href="#">Amet turpis, feugiat et sit amet</a></li>
+												<li><a href="#">Ornare in hendrerit in lectus</a></li>
+												<li><a href="#">Semper mod quis eget mi dolore</a></li>
+												<li><a href="#">Quam turpis feugiat sit dolor</a></li>
+												<li><a href="#">Amet ornare in hendrerit in lectus</a></li>
+												<li><a href="#">Semper mod quisturpis nisi</a></li>
+											</ul>
+										</section> -->
 
-                                    <p>Para más información.</p>
+								</div>
+							</div>
+                            <!DOCTYPE HTML>
 
-                                    <form method="post" action="#">
-                                        <div class="row">
-                                            <div class="6u 12u$(mobile)"><input type="text" name="name" placeholder="Name" /></div>
-                                            <div class="6u$ 12u$(mobile)"><input type="text" name="email" placeholder="Email" /></div>
-                                            <div class="12u$">
-                                                <textarea name="message" placeholder="Message"></textarea>
-                                            </div>
-                                            <div class="12u$">
-                                                <input type="submit" value="Send Message" />
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-					       </section>
-
+                            <div id="columnchart_values" style="width: 600px; height: 300px;"></div>
+							 <div style="width: 200px; height: 300px;">
+                            <section>
+											<h3>Porcentaje ventas</h3>
+											<ul class="style2">
+												<li>Madrid Capital: 48.184446</li>
+												<li>Comunidad de Madrid: 51.798959</li>
+                                                <li>Otros: 0.016596</li>                                            
+											</ul>
+										</section> 
+                            </div>
 						</div>
 					</div>
 				</div>
 
-			<!-- Footer -->
+						<!-- Footer -->
 				<div id="footer-wrapper">
 					<footer id="footer" class="container">
 						<div class="row">
