@@ -1,0 +1,107 @@
+g_orig=d_orig.groupby('Sexo').apply(sum)
+#g_orig = g_orig[g_orig['Edad']!=0]
+#g_orig = g_orig[g_orig['Sexo']!='filtered']
+g_orig
+
+import pandas as pd
+import numpy as np
+
+x=[]
+y=[]
+
+x = g_orig.index.values 
+
+# Creamos el array y conde cada punto es el seno de cada elemento de x
+y = g_orig['Venta Total'].values
+y1 = g_orig['Nº Tarjetas'].values
+y2 = g_orig['Compra Media'].values
+y3 = g_orig['Establecimientos'].values
+y4 = g_orig['Txs'].values
+
+z = pd.DataFrame()
+#for a in unie:
+#    y.append(g_orig[g_orig['Categoria']==a].max()['Establecimientos'])
+#    x.append(a)
+
+    
+    
+z['Sexo']=x
+z['Venta Total']=y
+z['Nº Tarjetas']=y1
+z['Compra Media']=y2
+z['Establecimientos']=y3
+z['Txs']=y4
+
+print x
+print y
+print z
+
+
+#y = d_cat[d_cat['Categoria']==a]['Venta Total']
+#x = d_cat[d_cat['Categoria']==a]['Fecha']
+plt.bar(np.arange(len(x)), y)  # Dibujamos el gráfico de barras
+#plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+plt.title('Ventas por Sexo')  # Colocamos el título
+plt.xticks(np.arange(len(x)), x, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+plt.savefig("C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_ven.png")
+plt.show()
+
+#y = d_cat[d_cat['Categoria']==a]['Venta Total']
+#x = d_cat[d_cat['Categoria']==a]['Fecha']
+plt.bar(np.arange(len(x)), y1)  # Dibujamos el gráfico de barras
+#plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+plt.title('Numero de Tarjetas por Sexo ')  # Colocamos el título
+plt.xticks(np.arange(len(x)), x, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+plt.savefig("C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_tar.png")
+plt.show()
+
+#y = d_cat[d_cat['Categoria']==a]['Venta Total']
+#x = d_cat[d_cat['Categoria']==a]['Fecha']
+plt.bar(np.arange(len(x)), y2)  # Dibujamos el gráfico de barras
+#plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+plt.title('Compra Media por Sexo ')  # Colocamos el título
+plt.xticks(np.arange(len(x)), x, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+plt.savefig("C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_avg.png")
+plt.show()
+
+#y = d_cat[d_cat['Categoria']==a]['Venta Total']
+#x = d_cat[d_cat['Categoria']==a]['Fecha']
+plt.bar(np.arange(len(x)), y3)  # Dibujamos el gráfico de barras
+#plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+plt.title('Numero de Establecimientos por Sexo ')  # Colocamos el título
+plt.xticks(np.arange(len(x)), x, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+plt.savefig("C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_est.png")
+plt.show()
+
+#y = d_cat[d_cat['Categoria']==a]['Venta Total']
+#x = d_cat[d_cat['Categoria']==a]['Fecha']
+plt.bar(np.arange(len(x)), y4)  # Dibujamos el gráfico de barras
+#plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+plt.title('Numero de Transacciones por Sexo ')  # Colocamos el título
+plt.xticks(np.arange(len(x)), x, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+plt.savefig("C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_txs.png")
+plt.show()
+
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_z.txt','w') 
+file.write(str(z))
+file.close()
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_x.txt','w') 
+file.write(str(x))
+file.close() 
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_ven_y.txt','w') 
+file.write(str(y))
+file.close() 
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_tar_y.txt','w') 
+file.write(str(y1))
+file.close() 
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_avg_y.txt','w') 
+file.write(str(y2))
+file.close() 
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_est_y.txt','w') 
+file.write(str(y3))
+file.close() 
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/ed_sex/sex_txs_y.txt','w') 
+file.write(str(y4))
+file.close()

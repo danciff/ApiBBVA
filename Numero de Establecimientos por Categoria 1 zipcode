@@ -1,0 +1,29 @@
+uni=d_cat.Categoria.unique()
+g_cat=d_cat.groupby(['Categoria','Fecha']).apply(sum)
+x=[]
+y=[]
+
+z = pd.DataFrame()
+for a in uni:
+    y.append(g_cat[g_cat['Categoria']==a].max()['Establecimientos'])
+    x.append(a)
+    
+    
+z['Categoria']=x
+z['Numero Establecimientos']=y
+print x
+print y
+print z
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/est_cat/est_cat_z.txt','w') 
+file.write(str(z))
+file.close()
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/est_cat/est_cat_x.txt','w') 
+file.write(str(x))
+file.close() 
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/est_cat/est_cat_y.txt','w') 
+file.write(str(y))
+file.close() 
+
+#g_cat=d_cat.groupby(['Categoria', 'Fecha']).size()
+#g_cat['Venta Media Mes']=g_cat['Venta Total']/12

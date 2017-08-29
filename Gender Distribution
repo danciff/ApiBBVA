@@ -1,0 +1,518 @@
+import requests
+from requests.auth import HTTPDigestAuth
+import json
+import urllib
+import httplib
+import pandas as pd
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+
+cat=[u'es_barsandrestaurants', u'es_tech', u'es_fashion', u'es_leisure', u'es_transportation', u'es_health', u'es_auto', u'es_wellnessandbeauty', u'es_home', u'es_sportsandtoys', u'es_contents', u'es_otherservices', u'es_food']
+for a in cat:
+    qparams = {}
+    parqparams = urllib.urlencode(qparams)
+
+    conn = httplib.HTTPSConnection('apis.bbva.com')
+
+    headers = {}
+    headers["Accept-Language"] = "es"
+    headers["Accept"] = "application/json"
+    headers["Authorization"] = "jwt eyJ6aXAiOiJERUYiLCJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.EbK0K_MhF_MAVKpFiwt7kOSyjPkNBe-uU9efy35ODvTEwVzf2eudj8REz1krzeCIlkpezqJI5k_QtAqVpuEPqxkinWcXTnO7UB6Q3z7qOUTv4T8a5Ofr1X3LnN_k9vRPQLDTfDEdrzTuZl9YvIWbGMQSTdw-kKkiLGYb-oyZ1yNOnD9LRUFxAZ0yY6pg4xin-gud2eoYiBS87R1Wavs6fwilN31hcv1b4s8_19SWBh7fLLIFUTgyT7Yl1Hw3TszvVkvRigqt8F52r5_eUgDNwPMUXEfNDJW-AG_ZOqlsHr2GVgoRz7jeCHsQ2K4y6hZoGYuNXYgpW_87p97VHA2PNQ.vs44scR8xbEjXWbp.DQFggvHzrFij90WIRNMt5GIJG1fgLFYvtaVE24PjC5f22Ik4xB02VEyp1hB6LzLJu_Xs528Jx2hJ6WAEzsn75Q9nyb-XqNFXrPZkxuVJum-wJrBZErHgkAPGGn3oQ5k0g5U2CARNf3DnRoPocl6YEG_pyLeZ4nUNEXoZXj4oAqi_JCgHHU_EwOkfBUjhK8P0NtCZTk1PVBEd_3sGEAnErWTg3rf1WsBt3ihfVw-bgPmeBvgJLiWXRfNXk2xeJ1ZMtQ.8IL-yLfmJ1yLG7BkdyeKlg"
+
+    conn.request('GET', '/paystats_sbx/3/zipcodes/28029/gender_distribution?category='+a+'&group_by=month&max_date=201512&min_date=201501', None, headers)
+    #conn.request('GET', '/paystats_academic/3/info/merchants_categories?%s'%parqparams, None, headers)
+
+    r = conn.getresponse()
+    #data= r.read()
+    data=json.loads(r.read())
+    #print data
+    print r.status, r.read(),data
+    fecha=[]
+    cards=[]
+    avg=[]
+    merch=[]
+    txs=[]
+    sexo=[]
+
+
+
+
+    for i in range(len(data['data'])):
+        if len(data['data'][i])>1:
+            for l in range(len(data['data'][i]['genders'])):
+            #if len(data['data'][i])>1:
+                #fecha.append(data['data'][i]['date'])
+                fecha.append(data['data'][i]['date'])
+                avg.append(data['data'][i]['genders'][l]['avg'])
+                if (data['data'][i]['genders'][l]['id']=='filtered'):
+                    merch.append(0)
+                    cards.append(0)
+                else:
+                    merch.append(data['data'][i]['genders'][l]['merchants'])
+                    cards.append(data['data'][i]['genders'][l]['cards'])
+
+                txs.append(data['data'][i]['genders'][l]['txs'])
+                sexo.append(data['data'][i]['genders'][l]['id'])
+                
+        
+    d_sex = pd.DataFrame()
+    d_sex['Fecha']=fecha
+    d_sex['Nº Tarjetas']=cards
+    d_sex['Compra Media']=avg
+    d_sex['Establecimientos']=merch
+    d_sex['Txs']=txs
+    d_sex['Sexo']=sexo
+    d_sex['Venta Total']=d_sex['Compra Media']*d_sex['Txs']
+    d_sex
+
+    d_sex['Fecha'] = d_sex['Fecha'].astype(int)
+    
+    g_sex=d_sex.groupby(['Sexo','Fecha']).apply(sum)
+
+    estf = g_sex[g_sex['Sexo']=='F']['Establecimientos'].values
+    estm = g_sex[g_sex['Sexo']=='M']['Establecimientos'].values
+    estu = g_sex[g_sex['Sexo']=='U']['Establecimientos'].values
+    este = g_sex[g_sex['Sexo']=='E']['Establecimientos'].values
+    estfilt = g_sex[g_sex['Sexo']=='filtered']['Establecimientos'].values
+
+    tarf = g_sex[g_sex['Sexo']=='F']['Nº Tarjetas'].values
+    tarm = g_sex[g_sex['Sexo']=='M']['Nº Tarjetas'].values
+    taru = g_sex[g_sex['Sexo']=='U']['Nº Tarjetas'].values
+    tare = g_sex[g_sex['Sexo']=='E']['Nº Tarjetas'].values
+    tarfilt = g_sex[g_sex['Sexo']=='filtered']['Nº Tarjetas'].values
+
+    fecf = g_sex[g_sex['Sexo']=='F']['Fecha'].values
+    fecm = g_sex[g_sex['Sexo']=='M']['Fecha'].values
+    fecu = g_sex[g_sex['Sexo']=='U']['Fecha'].values
+    fece = g_sex[g_sex['Sexo']=='E']['Fecha'].values
+    fecfilt = g_sex[g_sex['Sexo']=='filtered']['Fecha'].values
+
+    avgf = g_sex[g_sex['Sexo']=='F']['Compra Media'].values
+    avgm = g_sex[g_sex['Sexo']=='M']['Compra Media'].values
+    avgu = g_sex[g_sex['Sexo']=='U']['Compra Media'].values
+    avge = g_sex[g_sex['Sexo']=='E']['Compra Media'].values
+    avgfilt = g_sex[g_sex['Sexo']=='filtered']['Compra Media'].values
+
+    venf = g_sex[g_sex['Sexo']=='F']['Venta Total'].values
+    venm = g_sex[g_sex['Sexo']=='M']['Venta Total'].values
+    venu = g_sex[g_sex['Sexo']=='U']['Venta Total'].values
+    vene = g_sex[g_sex['Sexo']=='E']['Venta Total'].values
+    venfilt = g_sex[g_sex['Sexo']=='filtered']['Venta Total'].values
+
+    txsf = g_sex[g_sex['Sexo']=='F']['Txs'].values
+    txsm = g_sex[g_sex['Sexo']=='M']['Txs'].values
+    txsu = g_sex[g_sex['Sexo']=='U']['Txs'].values
+    txse = g_sex[g_sex['Sexo']=='E']['Txs'].values
+    txsfilt = g_sex[g_sex['Sexo']=='filtered']['Txs'].values
+    
+    
+
+
+
+    zf = pd.DataFrame()
+    zm = pd.DataFrame()
+    zu = pd.DataFrame()
+    ze = pd.DataFrame()
+    zfilt = pd.DataFrame()
+    #for a in unie:
+    #    y.append(g_orig[g_orig['Categoria']==a].max()['Establecimientos'])
+    #    x.append(a)
+
+
+
+    zf['Fecha']=fecf
+    zf['Tarjetas']=tarf
+    zf['Transacciones']=txsf
+    zf['Compra Media']=avgf
+    zf['Venta Total']=venf
+    zf['Establecimientos']=estf
+
+    zm['Fecha']=fecm
+    zm['Tarjetas']=tarm
+    zm['Transacciones']=txsm
+    zm['Compra Media']=avgm
+    zm['Venta Total']=venm
+    zm['Establecimientos']=estm
+
+    zu['Fecha']=fecu
+    zu['Tarjetas']=taru
+    zu['Transacciones']=txsu
+    zu['Compra Media']=avgu
+    zu['Venta Total']=venu
+    zu['Establecimientos']=estu
+
+    ze['Fecha']=fece
+    ze['Tarjetas']=tare
+    ze['Transacciones']=txse
+    ze['Compra Media']=avge
+    ze['Venta Total']=vene
+    ze['Establecimientos']=este
+
+    zfilt['Fecha']=fecfilt
+    zfilt['Tarjetas']=tarfilt
+    zfilt['Transacciones']=txsfilt
+    zfilt['Compra Media']=avgfilt
+    zfilt['Venta Total']=venfilt
+    zfilt['Establecimientos']=estfilt
+
+
+
+
+    #y = d_cat[d_cat['Categoria']==a]['Venta Total']
+    #x = d_cat[d_cat['Categoria']==a]['Fecha']
+    plt.plot(np.arange(len(fecf)), venf)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Venta Total por Mes Sexo F '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecf)), fecf, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venf_'+a+'.png')
+    plt.show()
+
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/f_x_'+a+'.txt','w') 
+    file.write(str(fecf))
+    file.close() 
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venf_y_'+a+'.txt','w') 
+    file.write(str(venf))
+    file.close() 
+
+    plt.plot(np.arange(len(fecf)), txsf)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Transacciones por Mes Sexo F '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecf)), fecf, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsf_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsf_y_'+a+'.txt','w') 
+    file.write(str(txsf))
+    file.close() 
+
+    plt.plot(np.arange(len(fecf)), estf)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Establecimientos por Mes Sexo F '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecf)), fecf, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estf_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estf_y_'+a+'.txt','w') 
+    file.write(str(estf))
+    file.close() 
+
+    plt.plot(np.arange(len(fecf)), tarf)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Numero Transacciones por Mes Sexo F '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecf)), fecf, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tarf_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tarf_y_'+a+'.txt','w') 
+    file.write(str(tarf))
+    file.close() 
+
+    plt.plot(np.arange(len(fecf)), avgf)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Compra Media por Mes Sexo F '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecf)), fecf, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgf_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgf_y_'+a+'.txt','w') 
+    file.write(str(avgf))
+    file.close() 
+
+    ###########################
+    plt.plot(np.arange(len(fecm)), venm)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Venta Total por Mes Sexo M '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecm)), fecm, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venm_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venm_y_'+a+'.txt','w') 
+    file.write(str(venm))
+    file.close() 
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/m_x_'+a+'.txt','w') 
+    file.write(str(fecm))
+    file.close()
+
+    plt.plot(np.arange(len(fecm)), txsm)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Transacciones por Mes Sexo M '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecm)), fecm, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsm_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsm_y_'+a+'.txt','w') 
+    file.write(str(txsm))
+    file.close() 
+
+    plt.plot(np.arange(len(fecm)), estm)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Establecimientos por Mes Sexo M '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecm)), fecm, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estm_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estm_y_'+a+'.txt','w') 
+    file.write(str(estm))
+    file.close() 
+
+    plt.plot(np.arange(len(fecm)), tarm)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Numero Transacciones por Mes Sexo M '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecm)), fecm, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tarm_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tarm_y_'+a+'.txt','w') 
+    file.write(str(tarm))
+    file.close() 
+
+    plt.plot(np.arange(len(fecm)), avgm)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Compra Media por Mes Sexo M '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecm)), fecm, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgm_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgm_y_'+a+'.txt','w') 
+    file.write(str(avgm))
+    file.close() 
+    ################################
+    plt.plot(np.arange(len(fecu)), venu)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Venta Total por Mes Sexo U '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecu)), fecu, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venu_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venu_y_'+a+'.txt','w') 
+    file.write(str(venu))
+    file.close() 
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/u_x_'+a+'.txt','w') 
+    file.write(str(fecu))
+    file.close()
+
+
+
+    plt.plot(np.arange(len(fecu)), txsu)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Transacciones por Mes Sexo U '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecu)), fecu, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsu_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsu_y_'+a+'.txt','w') 
+    file.write(str(txsu))
+    file.close() 
+
+    plt.plot(np.arange(len(fecu)), estu)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Establecimientos por Mes Sexo U '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecu)), fecu, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estu_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estu_y_'+a+'.txt','w') 
+    file.write(str(estu))
+    file.close() 
+
+    plt.plot(np.arange(len(fecu)), taru)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Numero Transacciones por Mes Sexo U '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecu)), fecu, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/taru_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/taru_y_'+a+'.txt','w') 
+    file.write(str(taru))
+    file.close() 
+
+    plt.plot(np.arange(len(fecu)), avgu)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Compra Media por Mes Sexo U '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecu)), fecu, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgu_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgu_y_'+a+'.txt','w') 
+    file.write(str(avgu))
+    file.close() 
+    #######################################
+    plt.plot(np.arange(len(fece)), vene)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Venta Total por Mes Sexo E '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fece)), fece, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/vene_'+a+'.png')
+    plt.show()
+
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/vene_y_'+a+'.txt','w') 
+    file.write(str(vene))
+    file.close() 
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/e_x_'+a+'.txt','w') 
+    file.write(str(fece))
+    file.close()
+
+
+
+
+    plt.plot(np.arange(len(fece)), txse)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Transacciones por Mes Sexo E '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fece)), fece, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txse_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txse_y_'+a+'.txt','w') 
+    file.write(str(txse))
+    file.close() 
+
+    plt.plot(np.arange(len(fece)), este)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Establecimientos por Mes Sexo E '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fece)), fece, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/este_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/este_y_'+a+'.txt','w') 
+    file.write(str(este))
+    file.close() 
+
+    plt.plot(np.arange(len(fece)), tare)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Numero Transacciones por Mes Sexo E '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fece)), fece, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tare_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tare_y_'+a+'.txt','w') 
+    file.write(str(tare))
+    file.close() 
+
+    plt.plot(np.arange(len(fece)), avge)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Compra Media por Mes Sexo E '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fece)), fece, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avge_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avge_y_'+a+'.txt','w') 
+    file.write(str(avge))
+    file.close() 
+    ###########################################
+    plt.plot(np.arange(len(fecfilt)), venfilt)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Venta Total por Mes Sexo filtered '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecfilt)), fecfilt, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venfilt_'+a+'.png')
+    plt.show()
+
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/venfilt_y_'+a+'.txt','w') 
+    file.write(str(venfilt))
+    file.close() 
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/filt_x_'+a+'.txt','w') 
+    file.write(str(fecfilt))
+    file.close()
+
+
+
+    plt.plot(np.arange(len(fecfilt)), txsfilt)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Transacciones por Mes Sexo filtered '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecfilt)), fecfilt, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsfilt_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/txsfilt_y_'+a+'.txt','w') 
+    file.write(str(txsfilt))
+    file.close() 
+
+    plt.plot(np.arange(len(fecfilt)), estfilt)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Establecimientos por Mes Sexo filtered '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecfilt)), fecfilt, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estfilt_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/estfilt_y_'+a+'.txt','w') 
+    file.write(str(estfilt))
+    file.close() 
+
+    plt.plot(np.arange(len(fecfilt)), tarfilt)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Numero Transacciones por Mes Sexo filtered '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecfilt)), fecfilt, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tarfilt_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/tarfilt_y_'+a+'.txt','w') 
+    file.write(str(tarfilt))
+    file.close() 
+
+    plt.plot(np.arange(len(fecfilt)), avgfilt)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Compra Media por Mes Sexo filtered '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(fecfilt)), fecfilt, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgfilt_'+a+'.png')
+    plt.show()
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/avgfilt_y_'+a+'.txt','w') 
+    file.write(str(avgfilt))
+    file.close() 
+    ###########################################################################
+
+    ###################################################################
+
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/f_z_'+a+'.txt','w') 
+    file.write(str(zf))
+    file.close()
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/m_z_'+a+'.txt','w') 
+    file.write(str(zm))
+    file.close()
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/u_z_'+a+'.txt','w') 
+    file.write(str(zu))
+    file.close()
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/e_z_'+a+'.txt','w') 
+    file.write(str(ze))
+    file.close()
+
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/sex_cat/filt_z_'+a+'.txt','w') 
+    file.write(str(zfilt))
+    file.close()
+    
+    
+    
+    ##################################################################

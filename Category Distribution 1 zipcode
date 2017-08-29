@@ -1,0 +1,138 @@
+import requests
+from requests.auth import HTTPDigestAuth
+import json
+import urllib
+import httplib
+import pandas as pd
+import matplotlib.pyplot as plt
+In [4]:
+
+#qparams = {'group_by=month&max_date=201510&min_date=201501'}
+qparams = {}
+parqparams = urllib.urlencode(qparams)
+
+
+conn = httplib.HTTPSConnection('apis.bbva.com')
+
+
+headers = {}
+headers["Accept-Language"] = "es"
+headers["Accept"] = "application/json"
+headers["Authorization"] = "jwt eyJ6aXAiOiJERUYiLCJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.a6joF5WJEVGOwww75YuHqhyadPO6y7BMoBoKjbFDG_yV1D_vCshcel6xlolKrBDn7yVr9e3zF1DFBWH2Cm57ay_uNbvzKpdHKNi9vRo30jesU-9SYNp58CTk3ksAZR_AFovINlNNxymASav8uvheHXpSM5Z2FWmDnNpxGMNjn1XcA2eazj9j_G9o5Y-qFbiWrIIQnAOHhxBwYN-WTrySQ4cwfTUSl4N7ETjgSysKWnFb10tx70_zhla4ZWoYgk6Dd_u2P0VX4ADaN-7jjc1pPmVXZIpWXFlIpEncnjKuWxNH_BKarbuO7c1kqXeJqhbKi7jRKgraQPgTW3inV6DgFA.x_3h3UY0CxTi7tHP.eCg-_sum8OHJfaCKmpphbQhCcQEFvEh5PehQlhJqKTshL__sWghupN9umNchg_ouKfGb8G-IyAJaocFDiSamSWerSbrgtnNuQtRHPrhXTVx6M6SeQRp3MkT9vAMyg4P2QvWN1Nk1jXBs0cEspz5p4ZROqdKeJJhTanFoAv3TmxDAl-_dyM48YRfilGwU82PNkIxkg5FQMmd3DoeWGk4T5f8d38EcHc5LXXbQSktUN7v2ONqiQI2wT51-SHE.NW5VL1dup-vL59651ZxlMg"
+
+
+conn.request('GET', '/paystats_sbx/3/zipcodes/28029/category_distribution?&group_by=month&max_date=201512&min_date=201501', None, headers)
+#conn.request('GET', '/paystats_academic/3/info/merchants_categories?%s'%parqparams, None, headers)
+
+
+r = conn.getresponse()
+#data= r.read()
+data=json.loads(r.read())
+#print data
+print r.status, r.read(),data
+#data2 = json.loads(data)
+
+fecha=[]
+cat=[]
+cards=[]
+avg=[]
+merch=[]
+txs=[]
+
+for i in range(len(data['data'])):
+    #fecha.append(data['data'][i]['date'])
+    for a in range(len(data['data'][i]['categories'])):
+        fecha.append(data['data'][i]['date'])
+        cat.append(data['data'][i]['categories'][a]['id'])
+        if (data['data'][i]['categories'][a]['id']=='filtered'):
+            cards.append(0)
+        else:
+            cards.append(data['data'][i]['categories'][a]['cards'])
+        avg.append(data['data'][i]['categories'][a]['avg'])
+        if (data['data'][i]['categories'][a]['id']=='filtered'):
+            merch.append(0)
+        else:
+            merch.append(data['data'][i]['categories'][a]['merchants'])
+        txs.append(data['data'][i]['categories'][a]['txs'])
+        
+        
+d_cat = pd.DataFrame()
+d_cat['Fecha']=fecha
+d_cat['Categoria']=cat
+d_cat['Nº Tarjetas']=cards
+d_cat['Compra Media']=avg
+d_cat['Establecimientos']=merch
+d_cat['Txs']=txs
+d_cat['Venta Total']=d_cat['Compra Media']*d_cat['Txs']
+d_cat
+
+d_cat.describe()
+
+
+d_cat['Fecha'] = d_cat['Fecha'].astype(int)
+
+#d_cat
+print(d_cat.dtypes)
+
+d_cat[d_cat['Categoria']=='es_tech']['Venta Total'].sum()
+
+g_cat=d_cat.groupby('Categoria').apply(sum)
+g_cat['Venta Media Mes']=g_cat['Venta Total']/12
+g_cat
+
+import numpy as np
+# Creamos el array x de cero a cien con cien puntos
+x = g_cat.index.values[0:13] # Categorias sin filtered
+
+# Creamos el array y conde cada punto es el seno de cada elemento de x
+y = g_cat['Venta Total'][0:13] # Quitamos filtered
+
+# Creamos una figura
+#plt.figure()
+
+# Representamos
+#plt.plot(x,y)
+
+# Mostramos en pantalla
+#plt.show()
+
+plt.bar(np.arange(len(x)), y)  # Dibujamos el gráfico de barras
+#plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+plt.title('Ventas de 2015 por Categorias')  # Colocamos el título
+plt.xticks(np.arange(len(x)), x, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+plt.savefig("ven_cat.png")
+plt.show()
+
+import json
+xl = x.tolist()
+xj=json.dumps(xl)
+
+print 'X'
+print xj
+
+yl = y.tolist()
+yj=json.dumps(yl)
+print 'Y'
+print yj
+
+import numpy as np
+
+uni=d_cat.Categoria.unique()
+
+for a in uni:
+    y = d_cat[d_cat['Categoria']==a]['Venta Total']
+    x = d_cat[d_cat['Categoria']==a]['Fecha']
+    plt.plot(np.arange(len(x)), y)  # Dibujamos el gráfico de barras
+    #plt.ylim(550,650)  # Limitamos los valores del eje y al range definido [450, 550]
+    plt.title('Ventas de '+a)  # Colocamos el título
+    plt.xticks(np.arange(len(x)), x, rotation = 90)  # Colocamos las etiquetas del eje x, en este caso, las fechas
+    plt.savefig("C:/Users/Carlos/Desktop/TFM/graficos/ven_cat_cat/ven_cat_"+a+".png")
+    plt.show()
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/ven_cat_cat/ven_cat_'+a+'_x.txt','w') 
+    file.write(str(x.values))
+    file.close() 
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/ven_cat_cat/ven_cat_'+a+'_y.txt','w') 
+    file.write(str(y.values))
+    file.close() 
+    
+   
