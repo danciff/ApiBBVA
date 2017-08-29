@@ -12,47 +12,34 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   <script type="text/javascript">
-      google.charts.load('current', {'packages':['gauge']});
-      google.charts.setOnLoadCallback(drawChart);
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
 
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Movimientos', 55000],
-          ['Ventas', 95000],
-          ['Clientes', 15000]
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Sexo');
+        data.addColumn('string', 'Ventas');
+        data.addColumn('string', 'Tarjetas');
+        data.addColumn('string', 'Compra media');
+        data.addColumn('string', 'Establecimientos');  
+        data.addColumn('string', 'Transacciones');
+        data.addRows([
+          ['E',  '5.353387e+04', '940', '140.85351', '468', '4626'],
+          ['F',  '2.018212e+07 ', '190007', '135024.69085', '137993', '527500'],
+          ['M',  '1.368132e+07 ', '137033', '153218.48866', '91839', '313905'],
+          ['U',  '5.075571e+06', '11616', '1876.20932', '4468', '32825']
         ]);
 
-        var options = {
-          width: 400, height: 220,
-          redFrom: 85000, redTo: 100000,
-          yellowFrom:65000, yellowTo: 85000,
-          minorTicks: 5, max:100000
-        };
+        var table = new google.visualization.Table(document.getElementById('table_div'));
 
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-
-//       setInterval(function() {
-//          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-//        chart.draw(data, options);
-//        }, 13000);
-//      setInterval(function() {
-//        data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-//        chart.draw(data, options);
-//      }, 5000);
-//      setInterval(function() {
-//        data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-//        chart.draw(data, options);
-//      }, 26000);
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
       }
+        
     </script>
 	</head>
-	<body class="resumen">
+	<body class="analisis-geo">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -69,15 +56,15 @@
 							<nav id="nav">
 								<ul>
 									<li><a href="index.html">Bienvenidos</a></li>
-                                    <li class="current"><a href="resumen.html">Resumen</a></li>
-				                    <li>
+                                    <li><a href="resumen.html">Resumen</a></li>
+				                    <li class="current">
 										<a href="#">Análisis</a>
 										<ul>
 											<li><a href="#">Transacciones</a>
                                                 <ul>
 													<li><a href="analisis-trans-ven.html">Categoría</a></li>
-                                                    <li><a href="analisis-trans-establecimiento.html">Establecimientos</a></li>
-													<li><a href="analisis-trans-hora.html">Horario</a></li>
+													<li><a href="analisis-trans-establecimiento.html">Establecimientos</a></li>
+                                                    <li><a href="analisis-trans-hora.html">Horario</a></li>
                                                     <li><a href="analisis-categoria.html">Venta total</a></li>
 												</ul></li>
 											<li><a href="#">Clientes</a>
@@ -93,8 +80,6 @@
 												<ul>
 													<li><a href="analisis-geo.html">Origen</a></li>
 													<li><a href="analisis-cp.html">Lugar</a></li>
-													<!--<li><a href="#">Magna phasellus</a></li>-->
-													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
 												</ul>
 											</li>
 											<!--<li><a href="#">Gasto</a></li>-->
@@ -112,13 +97,13 @@
 				<div id="main-wrapper">
 					<div class="container">
 						<div class="row 200%">
-							<div style="height: 300px; width: 40%;"  class="4u 12u$(medium)">
+							<div style="height: 300px; width: 30%;"  class="4u 12u$(medium)">
 								<div id="sidebar">
 
 									<!-- Sidebar -->
 										<section>
-											<h3>Paystats la herramienta de control del negocio</h3>
-											<p>Gracias a Paystats podemos conocer todas las transacciones realizadas, de forma que podemos filtrar y categorizar todos los pagos y obtener valiosa información para conocer el comportamiento de los clientes.</p>
+											<h3>Cantidad total según el sexo</h3>
+											<p>Podemos ver la cantidad de transacciones realizadas por los clientes, según la edad y el sexo de los mismos.</p>
                                             <!--<p>En la gráfica adjunta podemos ver la cantidad de transacciones realizadas durante el año 2015 del que disponemos los datos.</p>
 											<footer>
 												<a href="#" class="button icon fa-info-circle">Find out more</a>
@@ -138,11 +123,10 @@
 										</section> -->
 
 								</div>
-							</div>
-                            <!DOCTYPE HTML>
-
-                            <div id="chart_div" style="width: 60%; height: 300px;"></div>
-							
+							</div>                                                 
+							<div style="height: 300px; width: 70%;"  class="8u 12u$(medium)">
+                                <div id="table_div"></div>
+                        </div>                                                 
 						</div>
 					</div>
 				</div>

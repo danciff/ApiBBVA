@@ -1,0 +1,224 @@
+<!DOCTYPE HTML>
+<!--
+	Verti by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Paystats</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+            <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+            <script type='text/javascript'>
+                google.charts.load("current", {packages:['corechart']});
+            google.charts.setOnLoadCallback(drawChart11);
+            function drawChart11() {
+              var data = google.visualization.arrayToDataTable([
+                ['Fecha', 'Restaurantes', 'Tecnología', 'Moda', 'Transporte', 'Salud', 'Automovil', 'Belleza', 'Hogar', 'Juguetes/Deportes', 'Otros'],
+                 ['Enero', 11.816610000000001, 73.01061, 27.160170000000001, 30.178560000000001, 25.661100000000001, 199.91800000000001, 24.152329999999999, 17.859670000000001, 48.192790000000002, 31.106249999999999],
+                 ['Febrero', 11.09538, 80.348550000000003, 26.059989999999999, 20.92154, 28.386130000000001, 205.05500000000001, 26.467179999999999, 26.2974, 52.68, 38.604889999999997],
+                 ['Marzo', 11.4293, 61.460129999999999, 31.108080000000001, 21.828040000000001, 29.75412, 116.21778, 24.074179999999998, 38.147649999999999, 53.63514, 26.279340000000001],
+                 ['Abril', 11.933590000000001, 60.538890000000002, 29.809470000000001, 18.639089999999999, 26.70018, 126.58667, 26.996009999999998, 13.233029999999999, 50.768599999999999, 26.4283],
+                 ['Mayo', 11.08522, 63.666150000000002, 32.190330000000003, 21.640989999999999, 42.14396, 78.810000000000002, 25.355530000000002, 23.408439999999999, 51.361319999999999, 37.319009999999999],
+                 ['Junio', 11.434670000000001, 50.931190000000001, 29.102229999999999, 19.711369999999999, 43.762090000000001, 210.27888999999999, 27.819959999999998, 27.97419, 49.03051, 27.141369999999998],
+                 ['Julio', 11.529400000000001, 86.942620000000005, 25.49361, 21.4452, 53.772179999999999, 68.625, 21.225899999999999, 36.815919999999998, 35.440980000000003, 24.36627],
+                 ['Agosto', 11.56114, 62.816209999999998, 26.508579999999998, 22.669820000000001, 24.256730000000001, 85.295000000000002, 22.085159999999998, 16.05829, 51.815489999999997, 25.934329999999999],
+                 ['Septiembre', 12.309570000000001, 82.100120000000004, 33.161819999999999, 20.881019999999999, 33.451419999999999, 82.296000000000006, 25.475519999999999, 20.740539999999999, 50.056359999999998, 40.194240000000001],
+                 ['Octubre', 12.128130000000001, 55.213459999999998, 34.308250000000001, 19.248239999999999, 31.603429999999999, 170.41285999999999, 23.511330000000001, 20.548300000000001, 47.232909999999997, 33.584499999999998],
+                 ['Noviembre', 11.69506, 65.189030000000002, 33.335320000000003, 18.79429, 37.37771, 68.288889999999995, 21.393429999999999, 17.810929999999999, 53.295369999999998, 34.7727],
+                 ['Diciembre', 11.91014, 64.35163, 32.091839999999998, 18.03735, 80.400549999999996, 96.738569999999996, 24.722950000000001, 15.3795, 58.744059999999998, 26.420639999999999]
+              ]);
+
+              var view = new google.visualization.DataView(data);
+              view.setColumns([0, 1,2,3,4,5,6,7,8,9,10,
+                               { calc: "stringify",                                 
+                                 type: "string",
+                                 role: "annotation" }
+                              ]);
+
+              var options = {
+                title: "Masculino",
+                width: 500,
+                height: 250,
+                legend: { position: 'top', maxLines: 3 },
+                bar: { groupWidth: '75%' },
+                  isStacked: true,
+              };
+              var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values11"));
+              chart.draw(view, options);
+          }
+                          
+                google.charts.load("current", {packages:['corechart']});
+            google.charts.setOnLoadCallback(drawChart12);
+            function drawChart12() {
+              var data = google.visualization.arrayToDataTable([
+                ['Fecha', 'Restaurantes', 'Tecnología', 'Moda', 'Transporte', 'Salud', 'Automovil', 'Belleza', 'Hogar', 'Juguetes/Deportes', 'Otros'],
+                 ['Enero', 11.816610000000001, 73.01061, 27.160170000000001, 30.178560000000001, 25.661100000000001, 199.91800000000001, 24.152329999999999, 17.859670000000001, 48.192790000000002, 31.106249999999999],
+                 ['Febrero', 11.09538, 80.348550000000003, 26.059989999999999, 20.92154, 28.386130000000001, 205.05500000000001, 26.467179999999999, 26.2974, 52.68, 38.604889999999997],
+                 ['Marzo', 11.4293, 61.460129999999999, 31.108080000000001, 21.828040000000001, 29.75412, 116.21778, 24.074179999999998, 38.147649999999999, 53.63514, 26.279340000000001],
+                 ['Abril', 11.933590000000001, 60.538890000000002, 29.809470000000001, 18.639089999999999, 26.70018, 126.58667, 26.996009999999998, 13.233029999999999, 50.768599999999999, 26.4283],
+                 ['Mayo', 11.08522, 63.666150000000002, 32.190330000000003, 21.640989999999999, 42.14396, 78.810000000000002, 25.355530000000002, 23.408439999999999, 51.361319999999999, 37.319009999999999],
+                 ['Junio', 11.434670000000001, 50.931190000000001, 29.102229999999999, 19.711369999999999, 43.762090000000001, 210.27888999999999, 27.819959999999998, 27.97419, 49.03051, 27.141369999999998],
+                 ['Julio', 11.529400000000001, 86.942620000000005, 25.49361, 21.4452, 53.772179999999999, 68.625, 21.225899999999999, 36.815919999999998, 35.440980000000003, 24.36627],
+                 ['Agosto', 11.56114, 62.816209999999998, 26.508579999999998, 22.669820000000001, 24.256730000000001, 85.295000000000002, 22.085159999999998, 16.05829, 51.815489999999997, 25.934329999999999],
+                 ['Septiembre', 12.309570000000001, 82.100120000000004, 33.161819999999999, 20.881019999999999, 33.451419999999999, 82.296000000000006, 25.475519999999999, 20.740539999999999, 50.056359999999998, 40.194240000000001],
+                 ['Octubre', 12.128130000000001, 55.213459999999998, 34.308250000000001, 19.248239999999999, 31.603429999999999, 170.41285999999999, 23.511330000000001, 20.548300000000001, 47.232909999999997, 33.584499999999998],
+                 ['Noviembre', 11.69506, 65.189030000000002, 33.335320000000003, 18.79429, 37.37771, 68.288889999999995, 21.393429999999999, 17.810929999999999, 53.295369999999998, 34.7727],
+                 ['Diciembre', 11.91014, 64.35163, 32.091839999999998, 18.03735, 80.400549999999996, 96.738569999999996, 24.722950000000001, 15.3795, 58.744059999999998, 26.420639999999999]
+              ]);
+
+              var view = new google.visualization.DataView(data);
+              view.setColumns([0, 1,2,3,4,5,6,7,8,9,10,
+                               { calc: "stringify",                                 
+                                 type: "string",
+                                 role: "annotation" }
+                              ]);
+
+              var options = {
+                title: "Femenino",
+                width: 500,
+                height: 250,
+                legend: { position: 'top', maxLines: 3 },
+                bar: { groupWidth: '75%' },
+                  isStacked: true,
+              };
+              var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values12"));
+              chart.draw(view, options);
+          }
+                
+            </script>
+	</head>
+	<body class="analisis-geo">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+
+						<!-- Logo -->
+							<div id="logo">
+								<h1><a href="index.html">Paystats</a></h1>
+								<span>Análisis de negocio</span>
+							</div>
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li><a href="index.html">Bienvenidos</a></li>
+                                    <li><a href="resumen.html">Resumen</a></li>
+				                    <li class="current">
+										<a href="#">Análisis</a>
+										<ul>
+											<li><a href="#">Transacciones</a>
+                                                <ul>
+													<li><a href="analisis-trans-ven.html">Categoría</a></li>
+                                                    <li><a href="analisis-trans-establecimiento.html">Establecimientos</a></li>
+													<li><a href="analisis-trans-hora.html">Horario</a></li>
+                                                    <li><a href="analisis-categoria.html">Venta total</a></li>
+												</ul></li>
+											<li><a href="#">Clientes</a>
+                                                <ul>
+													<li><a href="analisis-cliente.html">Ventas</a></li>
+													<li><a href="analisis-cliente-total.html">Sexo</a></li>
+                                                    <li><a href="analisis-cliente-total-edad.html">Edad</a></li>
+                                                    <li><a href="analisis-cliente-edad.html">Categoria y Edad</a></li>
+                                                    <li><a href="analisis-cliente-sexo.html">Categoria y Sexo</a></li>
+												</ul></li>						
+											<li>
+												<a href="#">Localización</a>
+												<ul>
+													<li><a href="analisis-geo.html">Origen</a></li>
+													<li><a href="analisis-cp.html">Lugar</a></li>
+													<!--<li><a href="#">Magna phasellus</a></li>-->
+													<!--<li><a href="#">Etiam dolore nisl</a></li>-->
+												</ul>
+											</li>
+											<!--<li><a href="#">Gasto</a></li>-->
+										</ul>
+									</li>
+									<li><a href="conclusiones.html">Conclusiones</a></li>
+									<li><a href="contacto.html">Contacto</a></li>
+								</ul>
+							</nav>
+
+					</header>
+				</div>
+
+			<!-- Main -->
+				<div id="main-wrapper">
+					<div class="container">
+						<div class="row 200%">
+                            <div style="width: 100%;"  class="12u 12u$(medium)">
+                                <section>
+                                    <h3>Ventas por sexo</h3>
+											<p>Paystats nos ofrece las ventas realizadas según el rango de edad. Todas las ventas según la categoría para la edad referenciada.</p>
+										</section>										
+
+                            </div>
+                            
+							<div style="height: 850px; width: 50%;"  class="3u 12u$(medium)">
+								<div id="sidebar">								
+										<div id="columnchart_values11"></div>     
+
+								</div>
+							</div>
+                            <!DOCTYPE HTML>
+                             <div style="height: 850px; width: 50%;"  class="6u 12u$(medium)">
+                                      <div id="columnchart_values12"></div>
+                            </div>
+   
+						</div>
+					</div>
+				</div>
+
+						<!-- Footer -->
+				<div id="footer-wrapper">
+					<footer id="footer" class="container">
+						<div class="row">
+									<section class="widget contact last">
+										<h3>Contáctanos</h3>
+									</section>
+
+							</div>
+                            <div class="3u 6u$(medium) 12u$(small)">
+                                <section class="widget contact last">
+										<ul>
+											<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+											<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+											<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+											<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+											<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
+										</ul>
+									</section>
+                            </div>
+						</div>
+						<div class="row">
+							<div class="12u">
+								<div id="copyright">
+									<ul class="menu">
+										<li>&copy; Universidad de Alcalá de Henares</li>
+                                        <!--<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>-->
+									</ul>
+								</div>
+							</div>
+						</div>
+					</footer>
+				</div>
+
+			</div>
+
+		<!-- Scripts -->
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
