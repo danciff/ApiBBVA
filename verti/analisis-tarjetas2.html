@@ -14,82 +14,159 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
             <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
             <script type='text/javascript'>
-                google.charts.load("current", {packages:['corechart']});
-            google.charts.setOnLoadCallback(drawChart11);
+                google.charts.load('current', {'packages':['bar']});
+                google.charts.setOnLoadCallback(drawChart11);
             function drawChart11() {
               var data = google.visualization.arrayToDataTable([
-                ['Fecha', 'Restaurantes', 'Moda', 'Transporte', 'Salud', 'Automovil', 'Belleza', 'Hogar', 'Juguetes/Deportes', 'Otros'],
-                 ['Enero', 148, 107, 168, 104, 36, 56, 41, 22, 81],
-                 ['Febrero', 146, 105, 174, 102, 42, 50, 44, 23, 71],
-                 ['Marzo', 151, 99, 182, 110, 39, 57, 45, 22, 76],
-                 ['Abril', 154, 100, 171, 108, 42, 51, 38, 23, 79],
-                 ['Mayo', 155, 107, 180, 108, 43, 56, 47, 24, 85],
-                 ['Junio', 151, 104, 185, 118, 42, 56, 46, 23, 85],
-                 ['Julio', 151, 104, 182, 113, 45, 59, 43, 23, 83],
-                 ['Agosto', 134, 97, 122, 91, 33, 52, 32, 18, 65],
-                 ['Septiembre', 155, 105, 174, 108, 43, 63, 41, 25, 84],
-                 ['Octubre', 159, 110, 189, 110, 42, 62, 44, 26, 90],
-                 ['Noviembre', 161, 109, 192, 113, 39, 59, 41, 26, 88],
-                 ['Diciembre', 168, 110, 183, 107, 40, 61, 40, 29, 86]
+                ['Fecha', 'Tecnología','Moda', 'Transporte', 'Salud', 'Automovil', 'Hogar', 'Otros'],
+                 ['Enero', 599, 9029, 1624, 1909, 47, 762, 1766],
+                 ['Febrero', 506, 5406, 1726, 1811, 52, 470, 1368],
+                 ['Marzo', 533, 5481, 1971, 2019, 52, 447, 1574],
+                 ['Abril', 407, 5404, 1904, 1954, 54, 415, 1491],
+                 ['Mayo', 396, 6710, 2164, 2272, 55, 446, 1659],
+                 ['Junio', 434, 7541, 2108, 1983, 43, 579, 1715],
+                 ['Julio', 487, 10063, 1981, 1822, 65, 568, 1751],
+                 ['Agosto', 370, 5502, 1073, 1541, 45, 438, 1322],
+                 ['Septiembre', 434, 5347, 1879, 1874, 76, 435, 1518],
+                 ['Octubre', 377, 6013, 2107, 2018, 73, 565, 1714],
+                 ['Noviembre', 432, 5725, 2122, 1915, 86, 531, 1503],
+                 ['Diciembre', 558, 7314, 1955, 1919, 85, 976, 2417]
               ]);
 
               var view = new google.visualization.DataView(data);
-              view.setColumns([0, 1,2,3,4,5,6,7,8,9,
+              view.setColumns([0, 1,2,3,4,5,6,7,
                                { calc: "stringify",                                 
                                  type: "string",
                                  role: "annotation" }
                               ]);
 
               var options = {
-                title: "Masculino",
+                title: "Transacciones de menos de 30€",
                 width: 500,
-                height: 250,
+                height: 300,
                 legend: { position: 'top', maxLines: 3 },
                 bar: { groupWidth: '75%' },
-                  isStacked: true,
+                
               };
-              var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values11"));
-              chart.draw(view, options);
+              var chart = new google.charts.Bar(document.getElementById('columnchart_values11'));
+
+                chart.draw(data, google.charts.Bar.convertOptions(options));
           }
                           
-                google.charts.load("current", {packages:['corechart']});
-            google.charts.setOnLoadCallback(drawChart12);
+               google.charts.load('current', {'packages':['bar']});
+                google.charts.setOnLoadCallback(drawChart12);
             function drawChart12() {
               var data = google.visualization.arrayToDataTable([
-                ['Fecha', 'Restaurantes', 'Moda', 'Transporte', 'Salud', 'Automovil', 'Belleza', 'Hogar', 'Juguetes/Deportes', 'Otros'],
-                       ['Enero', 125, 127, 169, 120, 29, 100, 34, 18, 84],
-                     ['Febrero', 127, 128, 166, 118, 23, 101, 31, 17, 79],
-                     ['Marzo', 125, 126, 184, 123, 30, 105, 36, 21, 82],
-                     ['Abril', 135, 132, 179, 118, 30, 100, 38, 20, 83],
-                     ['Mayo', 136, 131, 178, 113, 29, 106, 35, 22, 92],
-                     ['Junio', 137, 135, 185, 129, 26, 104, 41, 15, 84],
-                     ['Julio', 133, 138, 179, 131, 28, 107, 39, 17, 81],
-                     ['Agosto', 116, 123, 143, 98, 21, 98, 23, 16, 66],
-                     ['Septiembre', 137, 138, 173, 124, 24, 105, 29, 22, 87],
-                     ['Octubre', 143, 138, 185, 125, 25, 109, 37, 25, 88],
-                     ['Noviembre', 139, 136, 181, 121, 22, 108, 32, 22, 90],
-                     ['Diciembre', 147, 144, 180, 125, 28, 107, 33, 25, 93]
+                ['Fecha', 'Tecnología','Moda', 'Transporte', 'Salud', 'Automovil', 'Hogar', 'Otros'],
+                   ['Enero', 382, 4553, 1311, 664, 33, 207, 762],
+                 ['Febrero', 302, 2523, 1213, 642, 38, 159, 672],
+                 ['Marzo', 290, 3127, 1366, 708, 46, 148, 788],
+                 ['Abril', 229, 3175, 1203, 733, 53, 147, 777],
+                 ['Mayo', 185, 3781, 1319, 794, 52, 146, 900],
+                 ['Junio', 264, 4145, 1302, 761, 50, 166, 881],
+                 ['Julio', 207, 4312, 1322, 710, 69, 170, 900],
+                 ['Agosto', 178, 2354, 994, 484, 44, 132, 699],
+                 ['Septiembre', 224, 3299, 1296, 672, 59, 135, 832],
+                 ['Octubre', 195, 3854, 1359, 693, 50, 188, 946],
+                 ['Noviembre', 238, 3594, 1305, 650, 70, 185, 887],
+                 ['Diciembre', 333, 4700, 1304, 623, 71, 293, 1223]
               ]);
 
               var view = new google.visualization.DataView(data);
-              view.setColumns([0, 1,2,3,4,5,6,7,8,9,
+              view.setColumns([0, 1,2,3,4,5,6,7,
                                { calc: "stringify",                                 
                                  type: "string",
                                  role: "annotation" }
                               ]);
 
               var options = {
-                title: "Femenino",
+                title: "Transacciones de 30€ a 100€",
                 width: 500,
-                height: 250,
+                height: 300,
                 legend: { position: 'top', maxLines: 3 },
                 bar: { groupWidth: '75%' },
-                  isStacked: true,
-              };
-              var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values12"));
-              chart.draw(view, options);
-          }
                 
+              };
+              var chart = new google.charts.Bar(document.getElementById('columnchart_values12'));
+
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+          }
+                google.charts.load('current', {'packages':['bar']});
+                google.charts.setOnLoadCallback(drawChart13);
+            function drawChart13() {
+              var data = google.visualization.arrayToDataTable([
+                ['Fecha', 'Tecnología','Moda', 'Transporte', 'Salud', 'Automovil', 'Hogar', 'Otros'],
+                ['Enero', 155, 448, 18, 154, 86, 61, 76],
+                 ['Febrero', 137, 255, 24, 167, 97, 35, 61],
+                 ['Marzo', 149, 347, 30, 181, 92, 41, 53],
+                 ['Abril', 95, 359, 21, 173, 95, 36, 65],
+                 ['Mayo', 103, 422, 32, 184, 118, 23, 76],
+                 ['Junio', 117, 379, 30, 208, 111, 49, 68],
+                 ['Julio', 132, 310, 38, 202, 134, 40, 64],
+                 ['Agosto', 72, 208, 15, 121, 81, 42, 60],
+                 ['Septiembre', 95, 446, 20, 185, 86, 63, 84],
+                 ['Octubre', 121, 519, 22, 148, 119, 46, 81],
+                 ['Noviembre', 110, 464, 23, 168, 105, 49, 79],
+                 ['Diciembre', 177, 532, 20, 173, 88, 47, 88]
+              ]);
+
+              var view = new google.visualization.DataView(data);
+              view.setColumns([0, 1,2,3,4,5,6,7,
+                               { calc: "stringify",                                 
+                                 type: "string",
+                                 role: "annotation" }
+                              ]);
+
+              var options = {
+                title: "Transacciones de 100€ a 500€",
+                width: 500,
+                height: 300,
+                legend: { position: 'top', maxLines: 3 },
+                bar: { groupWidth: '75%' },
+                
+              };
+              var chart = new google.charts.Bar(document.getElementById('columnchart_values13'));
+
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+          }
+                google.charts.load('current', {'packages':['bar']});
+                google.charts.setOnLoadCallback(drawChart14);
+            function drawChart14() {
+              var data = google.visualization.arrayToDataTable([
+                ['Fecha', 'Tecnología','Moda', 'Transporte', 'Salud', 'Automovil', 'Hogar', 'Otros'],
+                   ['Enero', 28, 5, 6, 31, 30, 10, 5],
+                 ['Febrero', 23, 6, 7, 27, 29, 9, 7],
+                 ['Marzo', 23, 3, 5, 20, 29, 9, 5],
+                 ['Abril', 16, 4, 4, 32, 23, 9, 7],
+                 ['Mayo', 19, 6, 6, 29, 26, 10, 3],
+                 ['Junio', 21, 3, 10, 33, 36, 12, 4],
+                 ['Julio', 25, 5, 11, 33, 39, 6, 6],
+                 ['Agosto', 17, 6, 5, 13, 27, 4, 3],
+                 ['Septiembre', 28, 9, 4, 25, 32, 9, 12],
+                 ['Octubre', 17, 9, 4, 28, 25, 8, 6],
+                 ['Noviembre', 26, 7, 6, 29, 33, 6, 7],
+                 ['Diciembre', 30, 11, 3, 21, 20, 4, 6]
+              ]);
+
+              var view = new google.visualization.DataView(data);
+              view.setColumns([0, 1,2,3,4,5,6,7,
+                               { calc: "stringify",                                 
+                                 type: "string",
+                                 role: "annotation" }
+                              ]);
+
+              var options = {
+                title: "Transacciones de 500€ a 1000€",
+                width: 500,
+                height: 300,
+                legend: { position: 'top', maxLines: 3 },
+                bar: { groupWidth: '75%' },
+                
+              };
+              var chart = new google.charts.Bar(document.getElementById('columnchart_values14'));
+
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+          }
             </script>
 	</head>
 	<body class="analisis-geo">
@@ -160,7 +237,7 @@
 						<div class="row 200%">
                             <div style="width: 100%;"  class="12u 12u$(medium)">
                                 <section>
-                                    <h3>Establecimientos según sexo</h3>
+                                    <h3>Transacciones por cantidad</h3>
 											<p>Paystats nos ofrece las ventas realizadas según el rango de edad. Todas las ventas según la categoría para la edad referenciada.</p>
 										</section>										
 
@@ -169,12 +246,14 @@
 							<div style="height: 850px; width: 50%;"  class="3u 12u$(medium)">
 								<div id="sidebar">								
 										<div id="columnchart_values11"></div>     
+                                    <div id="columnchart_values12"></div>
 
 								</div>
 							</div>
                             <!DOCTYPE HTML>
                              <div style="height: 850px; width: 50%;"  class="6u 12u$(medium)">
-                                      <div id="columnchart_values12"></div>
+                                    <div id="columnchart_values13"></div>     
+                                    <div id="columnchart_values14"></div>
                             </div>
    
 						</div>
