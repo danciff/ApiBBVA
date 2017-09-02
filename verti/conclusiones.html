@@ -20,22 +20,11 @@
 
       function drawTable() {
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Fecha');
-        data.addColumn('string', 'Día y hora MAX');
-        data.addColumn('string', 'Día y hora MIN');
+        data.addColumn('string', 'Transacciones');
+        data.addColumn('string', 'Clientes');
+        data.addColumn('string', 'Localización');
         data.addRows([
-          ['Enero',  'Viernes : 19:00', 'Viernes : 4:00'],
-          ['Febrero',  'Domingo : 19:00', 'Sabado : 4:00'],
-          ['Marzo',  'Martes : 19:00', 'Martes : 4:00'],
-          ['Abril',  'Miercoles : 19:00', 'Miercoles : 5:00'],
-          ['Mayo',  'Sabado : 19:00', 'Sabado : 4:00'],
-          ['Junio',  'Martes : 20:00', 'Martes : 5:00'],
-          ['Julio',  'Miercoles : 20:00', 'Miercoles : 4:00'],
-          ['Agosto',  'Domingo : 19:00', 'Sabado : 5:00'],
-          ['Septiembre',  'Martes : 19:00', 'Martes : 4:00'],
-          ['Octubre',  'Viernes : 19:00', 'Viernes : 3:00'],
-          ['Noviembre',  'Lunes : 19:00', 'Lunes : 2:00'],
-          ['Diciembre',  'Miercoles : 19:00', 'Miercoles : 4:00']
+          ['1815000',  '20000000', 'Madrid']
         ]);
 
         var table = new google.visualization.Table(document.getElementById('table_div'));
@@ -111,15 +100,23 @@
 				<div id="main-wrapper">
 					<div class="container">
 						<div class="row 200%">
-							<div class="8u 12u$(medium)">
+							<div class="6u 12u$(medium)">
 								<div id="content">
-                                    <div id="table_div"></div>
+                                   <!-- <div id="table_div"></div>-->
+                                    <p style="font-size:36px; color:Cyan;">Disponemos de <strong style="font-size:42px; color:cyan;">330000</strong> clientes
+                                    </p>
+                                    <p style="font-size:36px; color:blue;">Más de <strong style="font-size:42px; color:blue;">1815000</strong> transacciones
+                                    </p>
+                                    <p style="font-size:36px; color:green;">Alcanzando los <strong style="font-size:42px; color:green;">20000000</strong> €
+                                    </p>
+                                    <p style="font-size:36px; color:violet;">Descubre todo lo que necesitas.
+                                    </p>
                                     <footer>
 												<a href="contacto.html" class="button icon fa-info-circle">Saber más</a>
 											</footer>
 								</div>
 							</div>
-							<div class="4u 12u$(medium)">
+							<div class="6u 12u$(medium)">
 								<div id="sidebar">
 
 									<!-- Sidebar -->

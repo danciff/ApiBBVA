@@ -21,16 +21,16 @@
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Movimientos', 55000],
-          ['Ventas', 95000],
-          ['Clientes', 15000]
+          ['Clientes', 330000],
+          ['Movimientos', 1815000],
+          ['Ventas', 20000000]
         ]);
 
         var options = {
           width: 400, height: 220,
-          redFrom: 85000, redTo: 100000,
-          yellowFrom:65000, yellowTo: 85000,
-          minorTicks: 5, max:100000
+          redFrom: 15000000, redTo: 20000000,
+          yellowFrom:12000000, yellowTo: 15000000,
+          minorTicks: 5, max:20000000
         };
 
         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
