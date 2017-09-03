@@ -1,0 +1,308 @@
+import requests
+from requests.auth import HTTPDigestAuth
+import json
+import urllib
+import httplib
+import pandas as pd
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+ltar1_30=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+ltxs1_30=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+ltar30_100=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+ltxs30_100=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+ltar100_500=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+ltxs100_500=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+ltar500_1000=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+ltxs500_1000=[[],[],[],[],[],[],[],[],[],[],[],[],[]]
+
+
+l2=0
+meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+ltar1_30[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+ltxs1_30[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+ltar30_100[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+ltxs30_100[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+ltar100_500[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+ltxs100_500[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+ltar500_1000[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+ltxs500_1000[0].append(['Fecha','fashion','transportation','health','auto','home','otherservices'])
+
+
+me=0
+  
+for h in range(1,13):
+    ltar1_30[h].append(meses[me])
+    ltxs1_30[h].append(meses[me])
+    ltar30_100[h].append(meses[me])
+    ltxs30_100[h].append(meses[me])
+    ltar100_500[h].append(meses[me])
+    ltxs100_500[h].append(meses[me])
+    ltar500_1000[h].append(meses[me])
+    ltxs500_1000[h].append(meses[me])
+    me=me+1
+    if me==12:
+        me=0
+
+
+
+cat=[u'es_tech', u'es_fashion', u'es_transportation', u'es_health', u'es_auto', u'es_home', u'es_otherservices']
+for a in cat:
+    qparams = {}
+    parqparams = urllib.urlencode(qparams)
+
+    conn = httplib.HTTPSConnection('apis.bbva.com')
+
+    headers = {}
+    headers["Accept-Language"] = "es"
+    headers["Accept"] = "application/json"
+    headers["Authorization"] = "jwt eyJ6aXAiOiJERUYiLCJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.HqjjM_LGzpMkIOMmQs8tMTeJKymUywvwzYIfodkhl0YwsMisLwUmIQ0chNvhMLG9HoQp_Pjt45ueN0urLIuSH9qXeDjXOBMt8cZWWRORGuPszeulHqT7Rxaetjic0cxFPXSTELmr-G2OB-9owTQx9_5hWqAJUxgUAG1Z2Vz66c9HIOss7W9v-_igDqGpVVWw7F6vjWnscCqbxZrhLdldfgJZ1yzpAk12UnuCj5fqW5A7PV4X4rRrzflRzRBUJeaYKhm_rF2lDNGsrmJH2CayZ_w7aKhU87GZLGo415S2KkQ5QbdrGx3RP9N1hOEDMh4QcgW6GRGyWxXEfKy-fWtqkQ.0LmH96-52VlSbaic.0Nmp5i5trcMM50BzoZhNwEFh38tMdiBvK8Q6rmTQ_2HAz1-WuC58AAP6GPIj-faGALt19zF_DpIMK9gseH3j9PsZ8HurJFW-T4CnF-TORc__oxcpk1QRvwGdlQYNGTsRb9Sj5ACIajoolf1er1ru32FXEKlYV6v8_yqOsUKWgCtj-q-eYaIjpOKdqPQY4L8qmlpJF1dVOZbMA19UBYs1m8EU8y89IhbWXaluKilZsCCniYkng7P5E26OdXmKtJwSLr6RHOPVUH_IpQFYznLucoYwIKo.3cg70LzGF0i0WXiY6T9kDA"
+
+    conn.request('GET', '/paystats_sbx/3/zipcodes/28029/payment_distribution?category='+a+'&group_by=month&max_date=201512&min_date=201501', None, headers)
+    
+    
+    
+    r = conn.getresponse()
+    #data= r.read()
+    data=json.loads(r.read())
+    #print data
+    print r.status, r.read(),data
+    fecha=[]
+    cards=[]
+    avg=[]
+    merch=[]
+    txs=[]
+    can=[]
+
+
+
+
+    for i in range(len(data['data'])):
+        if len(data['data'][i])>1:
+            for l in range(len(data['data'][i]['amounts'])):
+                #fecha.append(data['data'][i]['date'])
+                fecha.append(data['data'][i]['date'])
+                avg.append(data['data'][i]['amounts'][l]['avg'])
+                if (data['data'][i]['amounts'][l]['id']=='filtered'):
+                    merch.append(0)
+                    cards.append(0)
+                else:
+                    merch.append(data['data'][i]['amounts'][l]['merchants'])
+                    cards.append(data['data'][i]['amounts'][l]['cards'])
+
+                txs.append(data['data'][i]['amounts'][l]['txs'])
+                can.append(data['data'][i]['amounts'][l]['id'])
+                
+
+    d_pay = pd.DataFrame()
+    d_pay['Fecha']=fecha
+    d_pay['Nº Tarjetas']=cards
+    d_pay['Compra Media']=avg
+    d_pay['Establecimientos']=merch
+    d_pay['Txs']=txs
+    d_pay['Cantidad']=can
+
+    d_pay['Venta Total']=d_pay['Compra Media']*d_pay['Txs']
+
+
+    d_pay['Fecha'] = d_pay['Fecha'].astype(int)
+    
+    g_pay=d_pay.groupby(['Cantidad','Fecha']).apply(sum)
+    g_pay= g_pay[g_pay['Cantidad']!='filtered']
+    
+    la=g_pay[g_pay['Cantidad']=='10-19.99']
+    le=g_pay[g_pay['Cantidad']=='20-29.99']
+    lo=g_pay[g_pay['Cantidad']=='<=9.99']
+
+    d1_30=pd.DataFrame()
+    la['Txs']=la['Txs'].astype(int)
+    le['Txs']=le['Txs'].astype(int)
+    lo['Txs']=lo['Txs'].astype(int)
+    d1_30['Txs']=la['Txs'].values+le['Txs'].values+lo['Txs'].values
+
+    
+    la['Nº Tarjetas']=la['Nº Tarjetas'].astype(int)
+    le['Nº Tarjetas']=le['Nº Tarjetas'].astype(int)
+    lo['Nº Tarjetas']=lo['Nº Tarjetas'].astype(int)
+    d1_30['Nº Tarjetas']=la['Nº Tarjetas'].values+le['Nº Tarjetas'].values+lo['Nº Tarjetas'].values
+
+
+
+    la=g_pay[g_pay['Cantidad']=='30-39.99']
+    le=g_pay[g_pay['Cantidad']=='40-49.99']
+    li=g_pay[g_pay['Cantidad']=='50-59.99']
+    lu=g_pay[g_pay['Cantidad']=='60-69.99']
+    laa=g_pay[g_pay['Cantidad']=='70-79.99']
+    lee=g_pay[g_pay['Cantidad']=='80-89.99']
+    lii=g_pay[g_pay['Cantidad']=='90-99.99']
+
+    d30_100=pd.DataFrame()
+    la['Txs']=la['Txs'].astype(int)
+    le['Txs']=le['Txs'].astype(int)
+    li['Txs']=li['Txs'].astype(int)
+    lu['Txs']=lu['Txs'].astype(int)
+    laa['Txs']=laa['Txs'].astype(int)
+    lee['Txs']=lee['Txs'].astype(int)
+    lii['Txs']=lii['Txs'].astype(int)
+    ta=la['Txs'].values+le['Txs'].values+li['Txs'].values#+lu['Txs'].values#+laa['Txs'].values+lee['Txs'].values+lii['Txs'].values
+    d30_100['Txs']=ta
+
+    
+    la['Nº Tarjetas']=la['Nº Tarjetas'].astype(int)
+    le['Nº Tarjetas']=le['Nº Tarjetas'].astype(int)
+    li['Nº Tarjetas']=li['Nº Tarjetas'].astype(int)
+    lu['Nº Tarjetas']=lu['Nº Tarjetas'].astype(int)
+    laa['Nº Tarjetas']=laa['Nº Tarjetas'].astype(int)
+    lee['Nº Tarjetas']=lee['Nº Tarjetas'].astype(int)
+    lii['Nº Tarjetas']=lii['Nº Tarjetas'].astype(int)
+    
+    d30_100['Nº Tarjetas']=la['Nº Tarjetas'].values+le['Nº Tarjetas'].values+li['Nº Tarjetas'].values#+lu['Nº Tarjetas'].values+laa['Nº Tarjetas'].values+lee['Nº Tarjetas'].values+lii['Nº Tarjetas'].values
+
+
+
+
+    la=g_pay[g_pay['Cantidad']=='100-119.99']
+    le=g_pay[g_pay['Cantidad']=='120-149.99']
+    lo=g_pay[g_pay['Cantidad']=='150-199.99']
+    li=g_pay[g_pay['Cantidad']=='200-299.99']
+    lu=g_pay[g_pay['Cantidad']=='300-499.99']
+
+    d100_500=pd.DataFrame()
+    d100_500
+    
+    la['Txs']=la['Txs'].astype(int)
+    le['Txs']=le['Txs'].astype(int)
+    li['Txs']=li['Txs'].astype(int)
+    lo['Txs']=lo['Txs'].astype(int)
+    lu['Txs']=lu['Txs'].astype(int)
+    d100_500['Txs']=la['Txs'].values+lo['Txs'].values+lu['Txs'].values
+
+    
+    la['Nº Tarjetas']=la['Nº Tarjetas'].astype(int)
+    le['Nº Tarjetas']=le['Nº Tarjetas'].astype(int)
+    li['Nº Tarjetas']=li['Nº Tarjetas'].astype(int)
+    lo['Nº Tarjetas']=lo['Nº Tarjetas'].astype(int)
+    lu['Nº Tarjetas']=lu['Nº Tarjetas'].astype(int)
+    d100_500['Nº Tarjetas']=la['Nº Tarjetas'].values+lo['Nº Tarjetas'].values+lu['Nº Tarjetas'].values
+
+
+    d500_1000=g_pay[g_pay['Cantidad']=='500-999.99']
+
+
+    d1000=g_pay[g_pay['Cantidad']=='>=1000']
+    
+    
+    
+    g_pay=d_pay.groupby(['Cantidad','Fecha']).apply(sum)
+    
+    
+    #fec1_30 = d1_30['Fecha'].values
+    #fec30_100 = d30_100['Fecha'].values
+    #fec100_500 = d100_500['Fecha'].values
+    #fec500_1000 = d500_1000['Fecha'].values
+    #fec1000 = d1000['Fecha'].values
+    
+    txs1_30 = d1_30['Txs'].values
+    txs30_100 = d30_100['Txs'].values
+    txs100_500 = d100_500['Txs'].values
+    txs500_1000 = d500_1000['Txs'].values
+    txs1000 = d1000['Txs'].values
+    
+    tar1_30 = d1_30['Nº Tarjetas'].values
+    tar30_100 = d30_100['Nº Tarjetas'].values
+    tar100_500 = d100_500['Nº Tarjetas'].values
+    tar500_1000 = d500_1000['Nº Tarjetas'].values
+    tar1000 = d1000['Nº Tarjetas'].values  
+
+    
+    
+
+    ztar1_30 = pd.DataFrame()
+    ztxs1_30 = pd.DataFrame()
+    ztar30_100 = pd.DataFrame()
+    ztxs30_100 = pd.DataFrame()
+    ztar100_500 = pd.DataFrame()
+    ztxs100_500 = pd.DataFrame()
+    ztar500_1000 = pd.DataFrame()
+    ztxs500_1000 = pd.DataFrame()
+
+
+
+    #z1_30['Fecha']=fec1_30
+    ztar1_30['Tarjetas']=tar1_30
+    ztxs1_30['Transacciones']=txs1_30
+    
+    #z30_100['Fecha']=fec30_100
+    ztar30_100['Tarjetas']=tar30_100
+    ztxs30_100['Transacciones']=txs30_100
+    
+    #z100_500['Fecha']=fec100_500
+    ztar100_500['Tarjetas']=tar100_500
+    ztxs100_500['Transacciones']=txs100_500
+    
+    #z500_1000['Fecha']=fec500_1000
+    ztar500_1000['Tarjetas']=tar500_1000
+    ztxs500_1000['Transacciones']=txs500_1000
+    
+    #z1000['Fecha']=fec1000
+    #z1000['Tarjetas']=tar1000
+    #z1000['Transacciones']=txs1000
+
+    s=0
+    for h in range(1,13):
+        ltar1_30[h].append(ztar1_30['Tarjetas'][s])
+        ltxs1_30[h].append(ztxs1_30['Transacciones'][s])
+        ltar30_100[h].append(ztar30_100['Tarjetas'][s])
+        ltxs30_100[h].append(ztxs30_100['Transacciones'][s])
+        ltar100_500[h].append(ztar100_500['Tarjetas'][s])
+        ltxs100_500[h].append(ztxs100_500['Transacciones'][s])
+        ltar500_1000[h].append(ztar500_1000['Tarjetas'][s])
+        ltxs500_1000[h].append(ztxs500_1000['Transacciones'][s])
+        
+        s=s+1
+
+
+    
+    
+    l2=l2+1
+
+
+print l
+
+
+    ##################################################################
+    
+    file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_tar1_30.txt','w') 
+file.write(str(ltar1_30))
+file.close()
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_txs1_30.txt','w') 
+file.write(str(ltxs1_30))
+file.close()
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_tar30_100.txt','w') 
+file.write(str(ltar30_100))
+file.close()
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_txs30_100.txt','w') 
+file.write(str(ltxs30_100))
+file.close()
+
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_tar100_500.txt','w') 
+file.write(str(ltar100_500))
+file.close()
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_txs100_500.txt','w') 
+file.write(str(ltxs100_500))
+file.close()
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_tar500_1000.txt','w') 
+file.write(str(ltar500_1000))
+file.close()
+
+file = open('C:/Users/Carlos/Desktop/TFM/graficos/pay_txs500_1000.txt','w') 
+file.write(str(ltxs500_1000))
+file.close()
+
